@@ -18,6 +18,8 @@ module.exports.showStatsPerApp = function *(appName){
 module.exports.storePageView = function *(){
 	var postedPageview = yield parse(this);
 
+	console.log(postedPageview);
+
 	// Validate url
 	if(!exists(postedPageview.url)){
 		this.set('ErrorMessage', "Url is required");
