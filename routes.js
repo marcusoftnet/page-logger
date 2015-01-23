@@ -4,12 +4,14 @@ var config = require("./config/index.js")();
 var pageViews = require('./lib/db.js').pageViews(config.mongoUrl);
 
 module.exports.showHome = function *(){
-	var apps = yield pageViews.find({}, ['appname']);
-	this.body = yield render("home.html", { apps : apps });
+	var apps = yield pageViews.distinct("appname");
+	console.log(apps);
+	this.body = yield render("home.html", { appnames : apps });
 };
 
 module.exports.showStatsPerApp = function *(appName){
-	var views = yield pageViews.find({appname : appName});
+	var views = yield pageViews.find({appname : appName}, { sort : { hits : -1}});
+
 	this.body = yield render("appStats.html", { appname : appName, views : views });
 };
 

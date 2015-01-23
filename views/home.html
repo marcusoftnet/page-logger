@@ -5,8 +5,8 @@
 <body>
 	<h1>Applications</h1>
 	<ul>
-		{% for app in apps %}
-			<li> <a href="/{{ app.appname }}">{{ app.appname}}</a></li>
+		{% for name in appnames %}
+			<li> <a href="/{{ name }}">{{ name }}</a></li>
 		{% endfor %}
 	</ul>
 </body>
