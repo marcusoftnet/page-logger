@@ -11,15 +11,18 @@ app.listen(3000);
 console.dir("Application started on http://localhost:3000");
 
 // route handlers
-function *showHome(){
-	this.body = "You're home buddy!"
-};
-
-
 var monk = require("monk");
 var wrap = require("co-monk");
 var db = monk('localhost:27017/pagelogger_dev');
 var pageViews = wrap(db.get('page_views'));
+
+
+function *showHome(){
+	var data = yield pageViews.find({});
+	console.log(data);
+	this.body = yield render("home", data);
+};
+
 
 function *logPageView(){
 	var postedPageview = yield parse(this);
@@ -64,9 +67,6 @@ function *logPageView(){
 	else{
 		yield pageViews.insert(toStore);
 	}
-
-	// var p = yield pageViews.findOne({ url : toStore.url});
-	// console.log(p.hits);
 
 	this.status = 201; //Created - no way to get the resource back out
 };

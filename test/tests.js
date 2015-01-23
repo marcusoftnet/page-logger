@@ -7,7 +7,7 @@ var wrap = require("co-monk");
 var db = monk('localhost:27017/pagelogger_dev');
 var pageViews = wrap(db.get('page_views'));
 
-describe('Page-logger API', function(){
+describe('Page-logger', function(){
 
 	var test_pageview  = {};
 
@@ -25,67 +25,94 @@ describe('Page-logger API', function(){
 		});
 	});
 
-	it('stores a page view with all fields set', function(done){
-		// Post
-		request
-			.post('/pageview')
-			.send(test_pageview)
-			.expect(201, done);
+	describe('Page-logger home page', function () {
+		beforeEach(function (done) {
+			co(function *(){
+				for (var i = 1; i < 10; i++) {
+					yield pageViews.insert({
+						hits : 10 * i,
+						appname: 'www.marcusoft.net',
+						title: 'Awesome post' + i,
+						url : 'http://www.marcusoft.net/2015/01/mypost' + i + '.html'
+					});
+				};
+
+				done();
+			});
+		});
+
+		it('list all the posts on the homepage', function (done) {
+			request
+				.get('/')
+				.expect(200)
+				.end(done);
+		});
 	});
 
-	it('storing two page views increments the hits', function(done){
-		co(function *(){
-			test_pageview.hits = 100;
-			yield pageViews.insert(test_pageview);
+	describe('Page-logger API', function(){
 
-			// Post a new page view
+		it('stores a page view with all fields set', function(done){
+			// Post
 			request
 				.post('/pageview')
 				.send(test_pageview)
-				.expect(201)
-				.end(done);
-
+				.expect(201, done);
 		});
-	});
 
-	describe('Page-logger API validation', function(){
-
-		it('requires URL', function(done){
+		it('storing two page views increments the hits', function(done){
 			co(function *(){
-				delete test_pageview.url;
+				test_pageview.hits = 100;
+				yield pageViews.insert(test_pageview);
 
-				// Post
+				// Post a new page view
 				request
 					.post('/pageview')
 					.send(test_pageview)
-					.expect("ErrorMessage", "Url is required")
-					.expect(400, done);
+					.expect(201)
+					.end(done);
+
 			});
 		});
 
-		it('requires title', function(done){
-			co(function *(){
-				delete test_pageview.title;
+		describe('Page-logger API validation', function(){
 
-				// Post
-				request
-					.post('/pageview')
-					.send(test_pageview)
-					.expect("ErrorMessage", "Title is required")
-					.expect(400, done);
+			it('requires URL', function(done){
+				co(function *(){
+					delete test_pageview.url;
+
+					// Post
+					request
+						.post('/pageview')
+						.send(test_pageview)
+						.expect("ErrorMessage", "Url is required")
+						.expect(400, done);
+				});
 			});
-		});
 
-		it('requires application name', function(done){
-			co(function *(){
-				delete test_pageview.appname;
+			it('requires title', function(done){
+				co(function *(){
+					delete test_pageview.title;
 
-				// Post
-				request
-					.post('/pageview')
-					.send(test_pageview)
-					.expect("ErrorMessage", "Application name is required")
-					.expect(400, done);
+					// Post
+					request
+						.post('/pageview')
+						.send(test_pageview)
+						.expect("ErrorMessage", "Title is required")
+						.expect(400, done);
+				});
+			});
+
+			it('requires application name', function(done){
+				co(function *(){
+					delete test_pageview.appname;
+
+					// Post
+					request
+						.post('/pageview')
+						.send(test_pageview)
+						.expect("ErrorMessage", "Application name is required")
+						.expect(400, done);
+				});
 			});
 		});
 	});
