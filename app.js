@@ -15,6 +15,12 @@ function *showHome(){
 	this.body = "You're home buddy!"
 };
 
+
+var monk = require("monk");
+var wrap = require("co-monk");
+var db = monk('localhost:27017/pagelogger_dev');
+var pageViews = wrap(db.get('page_views'));
+
 function *logPageView(){
 	var postedPageview = yield parse(this);
 
@@ -39,9 +45,28 @@ function *logPageView(){
 		return;
 	}
 
-	// store in database
+	var toStore = {
+		url : postedPageview.url,
+		title : postedPageview.title,
+		appname : postedPageview.appname,
+		hits : 1
+	};
 
-	console.log(postedPageview);
+	// store in database
+	var existingPost = yield pageViews.findOne({ url : toStore.url});
+	if(exists(existingPost)){
+		yield pageViews.update(
+			{ _id : existingPost._id},
+			{ $inc: { hits : 1}},
+    		{ upsert : true, safe : false}
+    	);
+	}
+	else{
+		yield pageViews.insert(toStore);
+	}
+
+	// var p = yield pageViews.findOne({ url : toStore.url});
+	// console.log(p.hits);
 
 	this.status = 201; //Created - no way to get the resource back out
 };
