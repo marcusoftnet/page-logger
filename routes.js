@@ -1,11 +1,11 @@
 var parse = require("co-body");
+var render = require("./lib/render.js");
 var config = require("./config/index.js")();
 var pageViews = require('./lib/db.js').pageViews(config.mongoUrl);
 
 module.exports.showHome = function *(){
-	var data = yield pageViews.find({});
-	console.log(data);
-	this.body = "nicely rendered page";// yield render("home", data);
+	var apps = yield pageViews.find({}, ['appname']);
+	this.body = yield render("home.html", { apps : apps });
 };
 
 module.exports.showStatsPerApp = function *(appName){
