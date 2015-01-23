@@ -11,6 +11,5 @@ app.use(route.post("/pageview", handlers.storePageView));
 
 // Start up
 app.listen(config.port);
-console.log("Started");
-console.log("Port: " + config.port);
-console.log("Db: " + config.mongoUrl);
+console.log("Started, with the following configuration");
+console.log(config);
