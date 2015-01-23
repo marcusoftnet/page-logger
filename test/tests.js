@@ -4,10 +4,7 @@ var app = require('../app.js');
 var request = require('supertest').agent(app.listen());
 var config = require("../config/index.js")('local');
 
-var monk = require("monk");
-var wrap = require("co-monk");
-var db = monk(config.mongoUrl);
-var pageViews = wrap(db.get('page_views'));
+var pageViews = require('../lib/db.js').pageViews(config.mongoUrl);
 
 describe('Page-logger', function(){
 
