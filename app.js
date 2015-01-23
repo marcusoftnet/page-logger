@@ -1,26 +1,29 @@
 var app = module.exports = require("koa")();
 var route = require("koa-route");
 var parse = require("co-body");
+var config = require("./config/index.js")();
 
 // routes
 app.use(route.get("/", showHome));
 app.use(route.post("/pageview", logPageView));
 
 // Start up
-app.listen(3000);
-console.dir("Application started on http://localhost:3000");
+app.listen(config.port);
+console.log("Started");
+console.log("Port: " + config.port);
+console.log("Db: " + config.mongoUrl);
 
 // route handlers
 var monk = require("monk");
 var wrap = require("co-monk");
-var db = monk('localhost:27017/pagelogger_dev');
+var db = monk(config.mongoUrl);
 var pageViews = wrap(db.get('page_views'));
 
 
 function *showHome(){
 	var data = yield pageViews.find({});
 	console.log(data);
-	this.body = yield render("home", data);
+	this.body = "nicely rendered page";// yield render("home", data);
 };
 
 

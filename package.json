@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --harmony-generators -u bdd -R spec -b",
-    "start": "nodemon --harmony *.* app.js"
+    "start": "node --harmony app.js",
+    "startLocal": "nodemon --harmony app.js"
   },
   "repository": {
     "type": "git",

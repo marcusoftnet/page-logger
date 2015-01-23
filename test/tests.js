@@ -2,9 +2,11 @@ var co = require("co");
 var should = require("should");
 var app = require('../app.js');
 var request = require('supertest').agent(app.listen());
+var config = require("../config/index.js")('local');
+
 var monk = require("monk");
 var wrap = require("co-monk");
-var db = monk('localhost:27017/pagelogger_dev');
+var db = monk(config.mongoUrl);
 var pageViews = wrap(db.get('page_views'));
 
 describe('Page-logger', function(){
