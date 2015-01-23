@@ -6,8 +6,8 @@ var config = require("./config/index.js")();
 
 // routes
 app.use(route.get("/", handlers.showHome));
-app.use(route.get("/{appName}", handlers.showStatsPerApp));
-app.use(route.post("/pageview", handlers.storePageView));
+app.use(route.get("/:appName", handlers.showStatsPerApp));
+app.use(route.post("/api/pageview", handlers.storePageView));
 
 // Start up
 app.listen(config.port);

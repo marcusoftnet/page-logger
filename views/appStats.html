@@ -1,0 +1,22 @@
+<html>
+<head>
+	<title>Stats for {{ appname }}</title>
+</head>
+<body>
+	<h1>Page views for {{ appname }}</h1>
+	<table>
+		<thead>
+			<th>Title</th>
+			<th>Number of views</th>
+		</thead>
+		<tbody>
+			{% for pv in views %}
+			<tr>
+				<td><a target="_blank" href="{{ pv.url}}">{{ pv.title }}</a></td>
+				<td>{{ pv.hits }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</body>
+</html>

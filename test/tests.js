@@ -27,11 +27,11 @@ describe('Page-logger', function(){
 	describe('Page-logger home page', function () {
 		beforeEach(function (done) {
 			co(function *(){
-				for (var i = 1; i < 10; i++) {
+				for (var i = 1; i <= 10; i++) {
 					yield pageViews.insert({
 						hits : 10 * i,
 						appname: 'www.marcusoft.net',
-						title: 'Awesome post' + i,
+						title: 'Awesome post ' + i,
 						url : 'http://www.marcusoft.net/2015/01/mypost' + i + '.html'
 					});
 				};
@@ -40,20 +40,55 @@ describe('Page-logger', function(){
 			});
 		});
 
-		it('list all the posts on the homepage', function (done) {
+		it('list all apps homepage', function (done) {
 			request
 				.get('/')
 				.expect(200)
+				.expect(function (req) {
+		  			req.text.should.containEql("www.marcusoft.net");
+		  			req.text.should.not.containEql("Kalle");
+		  		})
+				.end(done);
+		});
+
+		it('list all page stats for app', function (done) {
+			request
+				.get('/www.marcusoft.net')
+				.expect(200)
+				.expect(function (req) {
+		  			req.text.should.containEql("Awesome post 1");
+		  			req.text.should.containEql("Awesome post 2");
+		  			req.text.should.containEql("Awesome post 3");
+		  			req.text.should.containEql("Awesome post 4");
+		  			req.text.should.containEql("Awesome post 5");
+		  			req.text.should.containEql("Awesome post 6");
+		  			req.text.should.containEql("Awesome post 7");
+		  			req.text.should.containEql("Awesome post 8");
+		  			req.text.should.containEql("Awesome post 9");
+		  			req.text.should.containEql("Awesome post 10");
+
+		  			req.text.should.not.containEql("Awesome post 11");
+
+
+		  			req.text.should.containEql("<td>10</td>");
+		  			req.text.should.containEql("<td>20</td>");
+		  			req.text.should.containEql("<td>30</td>");
+		  			req.text.should.containEql("<td>40</td>");
+		  			req.text.should.containEql("<td>50</td>");
+		  			req.text.should.containEql("<td>60</td>");
+		  			req.text.should.containEql("<td>70</td>");
+		  		})
 				.end(done);
 		});
 	});
 
 	describe('Page-logger API', function(){
+		var API_POST_URL = '/api/pageview';
 
 		it('stores a page view with all fields set', function(done){
 			// Post
 			request
-				.post('/pageview')
+				.post(API_POST_URL)
 				.send(test_pageview)
 				.expect(201, done);
 		});
@@ -65,7 +100,7 @@ describe('Page-logger', function(){
 
 				// Post a new page view
 				request
-					.post('/pageview')
+					.post(API_POST_URL)
 					.send(test_pageview)
 					.expect(201)
 					.end(done);
@@ -81,7 +116,7 @@ describe('Page-logger', function(){
 
 					// Post
 					request
-						.post('/pageview')
+						.post(API_POST_URL)
 						.send(test_pageview)
 						.expect("ErrorMessage", "Url is required")
 						.expect(400, done);
@@ -94,7 +129,7 @@ describe('Page-logger', function(){
 
 					// Post
 					request
-						.post('/pageview')
+						.post(API_POST_URL)
 						.send(test_pageview)
 						.expect("ErrorMessage", "Title is required")
 						.expect(400, done);
@@ -107,7 +142,7 @@ describe('Page-logger', function(){
 
 					// Post
 					request
-						.post('/pageview')
+						.post(API_POST_URL)
 						.send(test_pageview)
 						.expect("ErrorMessage", "Application name is required")
 						.expect(400, done);

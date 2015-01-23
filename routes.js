@@ -9,7 +9,8 @@ module.exports.showHome = function *(){
 };
 
 module.exports.showStatsPerApp = function *(appName){
-	this.body = "Stats for " + appName;
+	var views = yield pageViews.find({appname : appName});
+	this.body = yield render("appStats.html", { appname : appName, views : views });
 };
 
 module.exports.storePageView = function *(){
