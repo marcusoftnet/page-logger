@@ -89,6 +89,7 @@ describe('Page-logger', function(){
 			// Post
 			request
 				.post(API_POST_URL)
+				.set('origin', 'http://www.marcusoft.com')
 				.send(test_pageview)
 				.expect(201, done);
 		});

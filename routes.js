@@ -5,20 +5,16 @@ var pageViews = require('./lib/db.js').pageViews(config.mongoUrl);
 
 module.exports.showHome = function *(){
 	var apps = yield pageViews.distinct("appname");
-	console.log(apps);
 	this.body = yield render("home.html", { appnames : apps });
 };
 
 module.exports.showStatsPerApp = function *(appName){
 	var views = yield pageViews.find({appname : appName}, { sort : { hits : -1}});
-
 	this.body = yield render("appStats.html", { appname : appName, views : views });
 };
 
 module.exports.storePageView = function *(){
 	var postedPageview = yield parse(this);
-
-	console.log(postedPageview);
 
 	// Validate url
 	if(!exists(postedPageview.url)){

@@ -7,7 +7,7 @@ var config = require("./config/index.js")();
 
 // Configuration
 var origin = 'http://www.marcusoft.net';
-// var origin = process.env.ORIGIN || 'http://www.marcusoft.net';
+var origin = process.env.ORIGIN || 'http://www.marcusoft.net';
 app.use(cors({ origin: origin, methods : ['POST'] }));
 
 // routes
