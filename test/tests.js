@@ -89,7 +89,7 @@ describe('Page-logger', function(){
 			// Post
 			request
 				.post(API_POST_URL)
-				.set('origin', 'http://www.marcusoft.com')
+				.set('Origin', 'www.marcusoft.com')
 				.send(test_pageview)
 				.expect(201, done);
 		});
@@ -102,6 +102,7 @@ describe('Page-logger', function(){
 				// Post a new page view
 				request
 					.post(API_POST_URL)
+					.set('Origin', 'www.marcusoft.com')
 					.send(test_pageview)
 					.expect(201)
 					.end(done);
@@ -118,6 +119,7 @@ describe('Page-logger', function(){
 					// Post
 					request
 						.post(API_POST_URL)
+						.set('Origin', 'www.marcusoft.com')
 						.send(test_pageview)
 						.expect("ErrorMessage", "Url is required")
 						.expect(400, done);
@@ -131,6 +133,7 @@ describe('Page-logger', function(){
 					// Post
 					request
 						.post(API_POST_URL)
+						.set('Origin', 'www.marcusoft.com')
 						.send(test_pageview)
 						.expect("ErrorMessage", "Title is required")
 						.expect(400, done);
@@ -144,6 +147,7 @@ describe('Page-logger', function(){
 					// Post
 					request
 						.post(API_POST_URL)
+						.set('Origin', 'www.marcusoft.com')
 						.send(test_pageview)
 						.expect("ErrorMessage", "Application name is required")
 						.expect(400, done);
