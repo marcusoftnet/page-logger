@@ -26,6 +26,7 @@
   "devDependencies": {
     "co": "^4.1.0",
     "mocha": "^2.1.0",
+    "semver": "^4.2.2",
     "should": "^4.6.1",
     "supertest": "^0.15.0"
   },
@@ -37,5 +38,8 @@
     "koa-cors": "0.0.14",
     "koa-route": "^2.4.0",
     "monk": "^0.9.1"
+  },
+  "engines": {
+    "node": "0.11.14"
   }
 }
