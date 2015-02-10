@@ -9,7 +9,7 @@ module.exports.showHome = function *(){
 };
 
 module.exports.showStatsPerApp = function *(appName){
-	var views = yield pageViews.find({appname : appName}, { sort : { hits : -1}});
+	var views = yield pageViews.find({appname : appName }, { sort : { hits : -1 }});
 	this.body = yield render("appStats.html", { appname : appName, views : views });
 };
 
@@ -43,6 +43,8 @@ module.exports.storePageView = function *(){
 		appname : postedPageview.appname,
 		hits : 1
 	};
+
+	console.dir("Storing page view for:" + toStore.url)
 
 	// store in database
 	var existingPost = yield pageViews.findOne({ url : toStore.url});

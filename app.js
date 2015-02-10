@@ -6,9 +6,7 @@ var handlers = require("./routes.js");
 var config = require("./config/index.js")();
 
 // Configuration
-var origin = 'http://www.marcusoft.net';
-var origin = process.env.ORIGIN || 'http://www.marcusoft.net';
-app.use(cors({ origin: origin, methods : ['POST'] }));
+app.use(cors({ origin: originFunction }));
 
 // routes
 app.use(route.get("/", handlers.showHome));
@@ -19,3 +17,12 @@ app.use(route.post("/api/pageview", handlers.storePageView));
 app.listen(config.port);
 console.log("Started, with the following configuration: ");
 console.log(config);
+
+var originFunction = function(req) {
+	var originWhiteList = ["localhost", "marcusoft.net"];
+	var origin = req.header.origin;
+	if (originWhiteList.indexOf(origin) !== -1) {
+		return origin;
+	}
+	return false;
+};

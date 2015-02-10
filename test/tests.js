@@ -111,6 +111,14 @@ describe('Page-logger', function(){
 		});
 
 		describe('Page-logger API validation', function(){
+			it('only accept posts from localhost and marcusoft.net' , function(done){
+				request
+					.post(API_POST_URL)
+					.set('Origin', 'anotherdomain.com')
+					.send(test_pageview)
+					.expect("Access-Control-Allow-Origin", "anotherdomain.com")
+					.end(done);
+			});
 
 			it('requires URL', function(done){
 				co(function *(){
