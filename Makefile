@@ -31,7 +31,7 @@ pushHeroku:
 	git push heroku master
 
 launch:
-	open http://booooring.com
+	heroku open
 
 deployProd: test createMinorRelease pushGithub pushHeroku launch
 

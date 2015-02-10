@@ -1,15 +1,15 @@
-var mongoProdUri = process.env.MONGOLAB_URI || 'localhost:27017/pagelogger_Prod';
+var mongoProdUri = process.env.MONGOLAB_URI || 'localhost:27017/pagelogger_prod';
 
 var config = {
 	local: {
 		mode: 'local',
 		port: 3000,
-		mongoUrl: 'localhost:27017/pagelogger_Dev'
+		mongoUrl: 'localhost:27017/pagelogger_dev'
 	},
 	staging: {
 		mode: 'staging',
 		port: 4000,
-		mongoUrl: 'localhost:27017/pagelogger_Test'
+		mongoUrl: 'localhost:27017/pagelogger_test'
 	},
 	prod: {
 		mode: 'prod',
@@ -20,4 +20,4 @@ var config = {
 
 module.exports = function (mode) {
 	return config[mode || process.argv[2] || 'local'] || config.local;
-}
+};
