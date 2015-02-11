@@ -110,6 +110,23 @@ describe('Page-logger', function(){
 			});
 		});
 
+		it('storing two page views at different times creates two pageViews', function(done){
+			co(function *(){
+				test_pageview.hits = 100;
+				test_pageview.viewedAt = Date.parse("2015-01-01");
+				yield pageViews.insert(test_pageview);
+
+				// Post a new page view
+				request
+					.post(API_POST_URL)
+					.set('Origin', 'www.marcusoft.com')
+					.send(test_pageview)
+					.expect(201)
+					.end(done);
+
+			});
+		});
+
 		describe('Page-logger API validation', function(){
 			it('only accept posts from localhost and marcusoft.net' , function(done){
 				request

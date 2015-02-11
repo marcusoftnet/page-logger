@@ -41,13 +41,23 @@ module.exports.storePageView = function *(){
 		url : postedPageview.url,
 		title : postedPageview.title,
 		appname : postedPageview.appname,
+		viewedAt : new Date,
 		hits : 1
 	};
 
-	console.dir("Storing page view for:" + toStore.url)
-
 	// store in database
-	var existingPost = yield pageViews.findOne({ url : toStore.url});
+	// db.inventory.find( { $and: [ { price: { $ne: 1.99 } }, { price: { $exists: true } } ] } )
+	var existingPost = yield pageViews.findOne(
+		{ $and: [
+			{ url : toStore.url},
+			{ viewedAt : {
+				$gt : startOfDay(toStore.viewedAt),
+				$lt : endOfDay(toStore.viewedAt)
+			}}
+		]}
+	);
+
+	// var existingPost = yield pageViews.findOne({ url : toStore.url});
 	if(exists(existingPost)){
 		yield pageViews.update(
 			{ _id : existingPost._id},
@@ -62,6 +72,24 @@ module.exports.storePageView = function *(){
 	this.status = 201; //Created - no way to get the resource back out
 };
 
+
+var startOfDay = function (inDate) {
+	var d = new Date(inDate);
+	d.setSeconds(0);
+	d.setHours(0);
+	d.setMinutes(0);
+
+	return d;
+};
+
+var endOfDay = function(inDate){
+	var d = new Date(inDate);
+	d.setHours(23);
+	d.setMinutes(59);
+	d.setSeconds(59);
+
+	return d;
+};
 
 // Helpers
 var exists = function (value) {
