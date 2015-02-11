@@ -12,7 +12,7 @@
 		<tbody>
 			{% for pv in views %}
 			<tr>
-				<td><a target="_blank" href="http://{{ appname }}{{ pv.url}}">{{ pv.title }}</a></td>
+				<td><a target="_blank" href="{{ pv.url}}">{{ pv.title }}</a></td>
 				<td>{{ pv.hits }}</td>
 			</tr>
 			{% endfor %}
