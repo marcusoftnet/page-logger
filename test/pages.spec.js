@@ -71,6 +71,24 @@ describe('Page-logger', function(){
 				.end(done);
 		});
 
-		it('per application, there are links to filter the page views');
+		it('per application, there are links to filter the page views', function (done) {
+			request
+				.get('/www.marcusoft.net')
+				.expect(function (req) {
+		  			req.text.should.containEql("Last 24 h");
+		  			req.text.should.containEql("Last week");
+		  			req.text.should.containEql("Last month");
+		  			req.text.should.containEql("Last year");
+		  			req.text.should.containEql("Last everything");
+		  		})
+		  		.end(done);
+		});
+
+		describe('I can view the pageviews', function () {
+			it('for the last 24 h');
+			it('for the last week');
+			it('for the last month');
+			it('for the last all time');
+		});
 	});
 });
