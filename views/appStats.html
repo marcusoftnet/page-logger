@@ -4,11 +4,11 @@
 </head>
 <body>
 	<h1>Page views for {{ appname }}</h1>
-	<a href="#">Last 24 h</a> -
-	<a href="#">Last week</a> -
-	<a href="#">Last month</a> -
-	<a href="#">Last year</a> -
-	<a href="#">Last everything</a> -
+	<a href="/{{ appname }}?filter=day">Last day</a> -
+	<a href="/{{ appname }}?filter=week">Last week</a> -
+	<a href="/{{ appname }}?filter=month">Last month</a> -
+	<a href="/{{ appname }}?filter=year">Last year</a> -
+	<a href="/{{ appname }}?filter=all">Last everything</a> -
 	<table>
 		<thead>
 			<th>Title</th>
