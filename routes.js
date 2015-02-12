@@ -46,7 +46,6 @@ module.exports.storePageView = function *(){
 	};
 
 	// store in database
-	// db.inventory.find( { $and: [ { price: { $ne: 1.99 } }, { price: { $exists: true } } ] } )
 	var existingPost = yield pageViews.findOne(
 		{ $and: [
 			{ url : toStore.url},
@@ -57,7 +56,6 @@ module.exports.storePageView = function *(){
 		]}
 	);
 
-	// var existingPost = yield pageViews.findOne({ url : toStore.url});
 	if(exists(existingPost)){
 		yield pageViews.update(
 			{ _id : existingPost._id},

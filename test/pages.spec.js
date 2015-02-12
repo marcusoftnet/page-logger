@@ -9,9 +9,7 @@ describe('Page-logger', function(){
 
 	beforeEach(function(done){
 		co(function *(){
-
 			yield pageViews.remove({});
-
 			done();
 		});
 	});
