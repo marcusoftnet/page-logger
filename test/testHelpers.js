@@ -43,5 +43,5 @@ module.exports.oneYearAgo = function () {
 };
 
 module.exports.earlyVeryEarly = function () {
-	return Date.parse("1970-01-01");
+	return Date.parse("1900-01-01");
 };

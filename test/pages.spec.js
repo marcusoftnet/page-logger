@@ -172,7 +172,7 @@ describe('Page-logger', function(){
 						.end(done);
 				});
 			});
-			it('for the last year', function (done) {
+			it('for the all time', function (done) {
 				co(function *(){
 					yield insertDatedTestPosts();
 
