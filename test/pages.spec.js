@@ -86,13 +86,39 @@ describe('Page-logger', function(){
 		});
 
 		describe('I can view the pageviews', function () {
-			it('for the last 24 h', function (done) {
+			var TEST_URL = '/www.marcusoft.net/?filter=';
+
+			function insertDatedTestPosts(){
+				return [
+					pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post today', viewedAt : testHelpers.today()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post yesterday', viewedAt : testHelpers.yesterday()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a week ago', viewedAt : testHelpers.oneWeekAgo()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a month ago', viewedAt : testHelpers.oneMonthAgo()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a year ago', viewedAt : testHelpers.oneYearAgo()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post since like forever...', viewedAt : testHelpers.earlyVeryEarly()})
+				];
+			};
+
+			it('for the last day', function (done) {
 				co(function *(){
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post today', viewedAt : testHelpers.today()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post yesterday', viewedAt : testHelpers.yesterday()});
+					yield insertDatedTestPosts();
 
 					request
-						.get('/www.marcusoft.net/?filter=day')
+						.get(TEST_URL + 'day')
+						.expect(function (req) {
+		  					req.text.should.containEql("Post today");
+		  					req.text.should.not.containEql("Post yesterday");
+		  				})
+						.end(done);
+				});
+			});
+
+			it('btw, no filter is the same as last day', function (done) {
+				co(function *(){
+					yield insertDatedTestPosts();
+
+					request
+						.get(TEST_URL)
 						.expect(function (req) {
 		  					req.text.should.containEql("Post today");
 		  					req.text.should.not.containEql("Post yesterday");
@@ -103,12 +129,10 @@ describe('Page-logger', function(){
 
 			it('for the last week', function (done) {
 				co(function *(){
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post today', viewedAt : testHelpers.today()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post yesterday', viewedAt : testHelpers.yesterday()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a week ago', viewedAt : testHelpers.oneWeekAgo()});
+					yield insertDatedTestPosts();
 
 					request
-						.get('/www.marcusoft.net/?filter=week')
+						.get(TEST_URL + 'week')
 						.expect(function (req) {
 		  					req.text.should.containEql("Post today");
 		  					req.text.should.containEql("Post yesterday");
@@ -119,13 +143,10 @@ describe('Page-logger', function(){
 			});
 			it('for the last month', function (done) {
 				co(function *(){
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post today', viewedAt : testHelpers.today()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post yesterday', viewedAt : testHelpers.yesterday()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a week ago', viewedAt : testHelpers.oneWeekAgo()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a month ago', viewedAt : testHelpers.oneMonthAgo()});
+					yield insertDatedTestPosts();
 
 					request
-						.get('/www.marcusoft.net/?filter=month')
+						.get(TEST_URL + 'month')
 						.expect(function (req) {
 		  					req.text.should.containEql("Post today");
 		  					req.text.should.containEql("Post yesterday");
@@ -137,14 +158,10 @@ describe('Page-logger', function(){
 			});
 			it('for the last year', function (done) {
 				co(function *(){
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post today', viewedAt : testHelpers.today()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post yesterday', viewedAt : testHelpers.yesterday()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a week ago', viewedAt : testHelpers.oneWeekAgo()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a month ago', viewedAt : testHelpers.oneMonthAgo()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a year ago', viewedAt : testHelpers.oneYearAgo()});
+					yield insertDatedTestPosts();
 
 					request
-						.get('/www.marcusoft.net/?filter=year')
+						.get(TEST_URL + 'year')
 						.expect(function (req) {
 		  					req.text.should.containEql("Post today");
 		  					req.text.should.containEql("Post yesterday");
@@ -157,15 +174,10 @@ describe('Page-logger', function(){
 			});
 			it('for the last year', function (done) {
 				co(function *(){
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post today', viewedAt : testHelpers.today()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post yesterday', viewedAt : testHelpers.yesterday()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a week ago', viewedAt : testHelpers.oneWeekAgo()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a month ago', viewedAt : testHelpers.oneMonthAgo()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a year ago', viewedAt : testHelpers.oneYearAgo()});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post since like forever...', viewedAt : testHelpers.earlyVeryEarly()});
+					yield insertDatedTestPosts();
 
 					request
-						.get('/www.marcusoft.net/?filter=all')
+						.get(TEST_URL + 'all')
 						.expect(function (req) {
 		  					req.text.should.containEql("Post today");
 		  					req.text.should.containEql("Post yesterday");
