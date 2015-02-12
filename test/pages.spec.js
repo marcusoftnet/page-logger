@@ -76,11 +76,11 @@ describe('Page-logger', function(){
 			request
 				.get('/www.marcusoft.net')
 				.expect(function (req) {
-		  			req.text.should.containEql("Last 24 h");
+		  			req.text.should.containEql("Last day");
 		  			req.text.should.containEql("Last week");
 		  			req.text.should.containEql("Last month");
 		  			req.text.should.containEql("Last year");
-		  			req.text.should.containEql("Last everything");
+		  			req.text.should.containEql("Last all");
 		  		})
 		  		.end(done);
 		});
