@@ -1,27 +1,49 @@
-<html>
-<head>
-	<title>Stats for {{ appname }}</title>
-</head>
-<body>
-	<h1>Page views for {{ appname }}</h1>
-	<a href="/{{ appname }}?filter=day">Last day</a> -
-	<a href="/{{ appname }}?filter=week">Last week</a> -
-	<a href="/{{ appname }}?filter=month">Last month</a> -
-	<a href="/{{ appname }}?filter=year">Last year</a> -
-	<a href="/{{ appname }}?filter=all">Last everything</a> -
-	<table>
-		<thead>
-			<th>Title</th>
-			<th>Number of views</th>
-		</thead>
-		<tbody>
-			{% for pv in views %}
-			<tr>
-				<td><a target="_blank" href="{{ pv.url}}">{{ pv.title }}</a></td>
-				<td>{{ pv.hits }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</body>
-</html>
+{% extends 'layout.html' %}
+{% block heading %}
+<h1>Stats for {{ appname }}</h1>
+{% endblock%}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-offset-1 col-lg-2 col-sm-4 col-xs-2">
+        <a href="/{{ appname }}?filter=day" class="btn btn-primary btn-lg">Last day</a>
+    </div>
+    <div class="col-lg-2 col-sm-4 col-xs-2">
+        <a href="/{{ appname }}?filter=week" class="btn btn-primary btn-lg">Last week</a>
+    </div>
+    <div class="col-lg-2 col-sm-4 col-xs-2">
+        <a href="/{{ appname }}?filter=month" class="btn btn-primary btn-lg">Last month</a>
+    </div>
+    <div class="col-lg-2 col-sm-4 col-xs-2">
+        <a href="/{{ appname }}?filter=year" class="btn btn-primary btn-lg">Last year</a>
+    </div>
+    <div class="col-lg-2 col-sm-4 col-xs-2">
+        <a href="/{{ appname }}?filter=all" class="btn btn-primary btn-lg">Last all</a>
+    </div>
+</div>
+<div class="row">
+    <hr>
+</div>
+<div class="row">
+    <div class="col-lg-offset-1 col-lg-9">
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th>Page</th>
+                    <th style="width:15%"># hits</th>
+                    <th style="width:15%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pv in views %}
+                <tr>
+                    <td>{{ pv.title }}</td>
+                    <td>{{ pv.hits }}</td>
+                    <td align="right"><a target="_blank" href="{{ pv.url}}" class="btn btn-default btn-sm">Go there!</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
