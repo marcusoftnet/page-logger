@@ -85,7 +85,23 @@ describe('Page-logger', function(){
 		});
 
 		describe('I can view the pageviews', function () {
-			it('for the last 24 h');
+			it('for the last 24 h', function (done) {
+				co(function *(){
+					var today = new Date();
+					var yesterday = new Date().setDate(today.getDate() - 1);
+
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post today', viewedAt : today});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post yesterday', viewedAt : yesterday});
+
+					request
+						.get('/www.marcusoft.net/?filter=day')
+						.expect(function (req) {
+		  					req.text.should.containEql("Post today");
+		  					req.text.should.not.containEql("Post yesterday");
+		  				})
+						.end(done);
+				});
+			});
 			it('for the last week');
 			it('for the last month');
 			it('for the last all time');
