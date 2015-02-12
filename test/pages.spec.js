@@ -172,7 +172,7 @@ describe('Page-logger', function(){
 						.end(done);
 				});
 			});
-			it('for the all time', function (done) {
+			it('for all time, ever and ever - Amen!', function (done) {
 				co(function *(){
 					yield insertDatedTestPosts();
 
