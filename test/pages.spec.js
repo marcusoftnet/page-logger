@@ -22,7 +22,8 @@ describe('Page-logger', function(){
 						hits : 10 * i,
 						appname: 'www.marcusoft.net',
 						title: 'Awesome post ' + i,
-						url : 'http://www.marcusoft.net/2015/01/mypost' + i + '.html'
+						url : 'http://www.marcusoft.net/2015/01/mypost' + i + '.html',
+						viewedAt : new Date
 					});
 				};
 
@@ -87,11 +88,8 @@ describe('Page-logger', function(){
 		describe('I can view the pageviews', function () {
 			it('for the last 24 h', function (done) {
 				co(function *(){
-					var today = new Date();
-					var yesterday = new Date().setDate(today.getDate() - 1);
-
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post today', viewedAt : today});
-					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post yesterday', viewedAt : yesterday});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post today', viewedAt : testHelpers.today()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post yesterday', viewedAt : testHelpers.yesterday()});
 
 					request
 						.get('/www.marcusoft.net/?filter=day')
@@ -102,9 +100,83 @@ describe('Page-logger', function(){
 						.end(done);
 				});
 			});
-			it('for the last week');
-			it('for the last month');
-			it('for the last all time');
+
+			it('for the last week', function (done) {
+				co(function *(){
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post today', viewedAt : testHelpers.today()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post yesterday', viewedAt : testHelpers.yesterday()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a week ago', viewedAt : testHelpers.oneWeekAgo()});
+
+					request
+						.get('/www.marcusoft.net/?filter=week')
+						.expect(function (req) {
+		  					req.text.should.containEql("Post today");
+		  					req.text.should.containEql("Post yesterday");
+		  					req.text.should.not.containEql("Post more than a week ago");
+		  		 		})
+						.end(done);
+				});
+			});
+			it('for the last month', function (done) {
+				co(function *(){
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post today', viewedAt : testHelpers.today()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post yesterday', viewedAt : testHelpers.yesterday()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a week ago', viewedAt : testHelpers.oneWeekAgo()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a month ago', viewedAt : testHelpers.oneMonthAgo()});
+
+					request
+						.get('/www.marcusoft.net/?filter=month')
+						.expect(function (req) {
+		  					req.text.should.containEql("Post today");
+		  					req.text.should.containEql("Post yesterday");
+		  					req.text.should.containEql("Post more than a week ago");
+		  					req.text.should.not.containEql("Post more than a month ago");
+		  		 		})
+						.end(done);
+				});
+			});
+			it('for the last year', function (done) {
+				co(function *(){
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post today', viewedAt : testHelpers.today()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post yesterday', viewedAt : testHelpers.yesterday()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a week ago', viewedAt : testHelpers.oneWeekAgo()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a month ago', viewedAt : testHelpers.oneMonthAgo()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a year ago', viewedAt : testHelpers.oneYearAgo()});
+
+					request
+						.get('/www.marcusoft.net/?filter=year')
+						.expect(function (req) {
+		  					req.text.should.containEql("Post today");
+		  					req.text.should.containEql("Post yesterday");
+		  					req.text.should.containEql("Post more than a week ago");
+		  					req.text.should.containEql("Post more than a month ago");
+		  					req.text.should.not.containEql("Post more than a year ago");
+		  		 		})
+						.end(done);
+				});
+			});
+			it('for the last year', function (done) {
+				co(function *(){
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post today', viewedAt : testHelpers.today()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post yesterday', viewedAt : testHelpers.yesterday()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a week ago', viewedAt : testHelpers.oneWeekAgo()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a month ago', viewedAt : testHelpers.oneMonthAgo()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a year ago', viewedAt : testHelpers.oneYearAgo()});
+					yield pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post since like forever...', viewedAt : testHelpers.earlyVeryEarly()});
+
+					request
+						.get('/www.marcusoft.net/?filter=all')
+						.expect(function (req) {
+		  					req.text.should.containEql("Post today");
+		  					req.text.should.containEql("Post yesterday");
+		  					req.text.should.containEql("Post more than a week ago");
+		  					req.text.should.containEql("Post more than a month ago");
+		  					req.text.should.containEql("Post more than a year ago");
+		  					req.text.should.not.containEql("Post since like forever...");
+		  		 		})
+						.end(done);
+				});
+			});
 		});
 	});
 });

@@ -9,8 +9,61 @@ module.exports.showHome = function *(){
 };
 
 module.exports.showStatsPerApp = function *(appName){
-	var views = yield pageViews.find({appname : appName }, { sort : { hits : -1 }});
+
+	// create a object that returns all the pageviews within the requested range
+	var query = createStatsPerAppViewQuery(appName, this.query);
+
+	// Create grouping criterias group the result per URL and date
+	var group = [];
+
+	// Sort on number of hits
+	var sortOptions = { sort : { hits : -1 }};
+
+	// Perform the search
+	var views = yield pageViews.find(query, sortOptions);
+
+
 	this.body = yield render("appStats.html", { appname : appName, views : views });
+};
+
+var createStatsPerAppViewQuery = function(postedAppName, queryString){
+	var filterQsParam = queryString.filter || "day";
+	var start = new Date();
+	var stop = start;
+
+	if(filterQsParam === "week") {
+		start = new Date();
+		start.setDate(stop.getDate() - 7);
+	}
+	else if(filterQsParam === "month"){
+		start = new Date();
+		start.setDate(stop.getDate() - 30);
+	}
+	else if(filterQsParam === "year"){
+		start = new Date();
+		start.setDate(stop.getDate() - 365);
+	}
+	else if(filterQsParam === "all"){
+		start = Date.parse("1970-01-01");
+	}
+
+	var query = {
+		$and:
+		[
+			{ appname : postedAppName },
+			{ viewedAt : {
+				$gte : startOfDay(start),
+				$lte : endOfDay(stop)
+			}}
+		]
+	};
+
+	// Left here for debugging
+	// console.log(filterQsParam);
+	// console.log("Start: " + startOfDay(start));
+	// console.log("Stop : " + endOfDay(stop));
+
+	return query;
 };
 
 module.exports.storePageView = function *(){
@@ -67,7 +120,7 @@ module.exports.storePageView = function *(){
 		yield pageViews.insert(toStore);
 	}
 
-	this.status = 201; //Created - no way to get the resource back out
+	this.status = 201; //Created - we don't supply a way to get the resource back out
 };
 
 
