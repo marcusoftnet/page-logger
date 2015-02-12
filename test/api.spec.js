@@ -1,18 +1,15 @@
 var co = require("co");
 var should = require("should");
-var app = require('../app.js');
-var request = require('supertest').agent(app.listen());
-var config = require("../config/index.js")('local');
 var testHelpers = require("./testHelpers.js");
 
-var pageViews = require('../lib/db.js').pageViews(config.mongoUrl);
+var request = testHelpers.request;
+var pageViews = testHelpers.pageViews;
 
 describe('Page-logger', function(){
 
 	beforeEach(function(done){
 		co(function *(){
 			yield pageViews.remove({});
-
 			done();
 		});
 	});
