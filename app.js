@@ -1,5 +1,6 @@
 var app = module.exports = require("koa")();
 var route = require("koa-route");
+var cors = require("koa-cors");
 var parse = require("co-body");
 var serve = require('koa-static');
 
@@ -8,6 +9,7 @@ var config = require("./config/index.js")();
 
 // Configuration
 app.use(serve(__dirname + '/public'));
+app.use(cors());
 
 // routes
 app.use(route.get("/", handlers.showHome));
