@@ -14,7 +14,7 @@ describe('Page-logger', function(){
 		});
 	});
 
-	describe('Page-logger API', function(){
+	describe('the API', function(){
 		var API_POST_URL = '/api/pageview';
 
 		it('stores a page view with all fields set', function(done){
@@ -61,13 +61,21 @@ describe('Page-logger', function(){
 			});
 		});
 
+		it('filters out the http:// from the allowed clients' , function(done){
+			request
+				.post(API_POST_URL)
+				.set('Origin', 'http://www.marcusoft.net')
+				.send(testHelpers.test_pageview())
+				.expect(201, done);
+		});
+
 		describe('Page-logger API validation', function(){
 			it('only accept posts from allowed clients' , function(done){
 				request
 					.post(API_POST_URL)
 					.set('Origin', 'anotherdomain.com')
 					.send(testHelpers.test_pageview())
-					.expect("ErrorMessage", "Application 'anotherdomain.com' not approved")
+					.expect("ErrorMessage", "Application not approved")
 					.end(done);
 			});
 

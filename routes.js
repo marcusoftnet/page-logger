@@ -64,17 +64,16 @@ var createStatsPerAppViewQuery = function(postedAppName, queryString){
 module.exports.storePageView = function *(){
 	var postedPageview = yield parse(this);
 
-	var origin = this.get("origin");
-	// Validate application name
-	if(!exists(origin)){
+	if(!exists(this.get("origin"))){
 		this.set('ErrorMessage', "Application needs to be supplied in the Origin-header");
 		this.status = 400;
 		return;
 	}
+	var applicationName = getAppName(this.get("origin"));
 
-	if(!arrayElementExists(config.clients, origin)){
-		console.log('Denied: ' + origin);
-		this.set('ErrorMessage', "Application '" + origin + "' not approved");
+	if(!arrayElementExists(config.clients, applicationName)){
+		console.log('Denied: ' + applicationName);
+		this.set('ErrorMessage', "Application not approved");
 		this.status = 400;
 		return;
 	}
@@ -94,7 +93,7 @@ module.exports.storePageView = function *(){
 	}
 
 	var toStore = {
-		appname : this.get("Origin"),
+		appname : applicationName,
 		url : postedPageview.url,
 		title : postedPageview.title,
 		viewedAt : new Date,
@@ -161,4 +160,11 @@ var exists = function (value) {
 
 var arrayElementExists = function (arr, element) {
 	return arr.indexOf(element)>-1;
+}
+
+var getAppName = function(originHeader){
+	var origin = originHeader || "";
+	var protocolDelimiter = "://";
+	var index = origin.indexOf("://");
+	return index > -1 ? origin.slice(index + protocolDelimiter.length) : origin;
 }
