@@ -101,17 +101,15 @@ describe('Page-logger', function(){
 				});
 			});
 
-			it('requires application name', function(done){
+			it('requires origin header', function(done){
 				co(function *(){
 					var tv = testHelpers.test_pageview();
-					delete tv.appname;
-
+					
 					// Post
 					request
 						.post(API_POST_URL)
-						.set('Origin', 'www.marcusoft.com')
 						.send(tv)
-						.expect("ErrorMessage", "Application name is required")
+						.expect("ErrorMessage", "Application needs to be supplied in the Origin-header")
 						.expect(400, done);
 				});
 			});

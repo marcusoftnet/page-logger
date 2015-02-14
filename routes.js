@@ -13,9 +13,6 @@ module.exports.showStatsPerApp = function *(appName){
 	// create a object that returns all the pageviews within the requested range
 	var query = createStatsPerAppViewQuery(appName, this.query);
 
-	// Create grouping criterias group the result per URL and date
-	var group = [];
-
 	// Sort on number of hits
 	var sortOptions = { sort : { hits : -1 }};
 
@@ -69,6 +66,14 @@ var createStatsPerAppViewQuery = function(postedAppName, queryString){
 module.exports.storePageView = function *(){
 	var postedPageview = yield parse(this);
 
+
+	// Validate application name
+	if(!exists(this.get("origin"))){
+		this.set('ErrorMessage', "Application needs to be supplied in the Origin-header");
+		this.status = 400;
+		return;
+	}
+
 	// Validate url
 	if(!exists(postedPageview.url)){
 		this.set('ErrorMessage', "Url is required");
@@ -83,17 +88,10 @@ module.exports.storePageView = function *(){
 		return;
 	}
 
-	// Validate application name
-	if(!exists(postedPageview.appname)){
-		this.set('ErrorMessage', "Application name is required");
-		this.status = 400;
-		return;
-	}
-
 	var toStore = {
+		appname : this.get("Origin"),
 		url : postedPageview.url,
 		title : postedPageview.title,
-		appname : postedPageview.appname,
 		viewedAt : new Date,
 		hits : 1
 	};
