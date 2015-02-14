@@ -18,8 +18,6 @@ module.exports.showStatsPerApp = function *(appName){
 
 	// Perform the search
 	var views = yield pageViews.find(query, sortOptions);
-
-
 	this.body = yield render("appStats.html", { appname : appName, views : views });
 };
 
@@ -66,10 +64,16 @@ var createStatsPerAppViewQuery = function(postedAppName, queryString){
 module.exports.storePageView = function *(){
 	var postedPageview = yield parse(this);
 
-
+	var origin = this.get("origin");
 	// Validate application name
-	if(!exists(this.get("origin"))){
+	if(!exists(origin)){
 		this.set('ErrorMessage', "Application needs to be supplied in the Origin-header");
+		this.status = 400;
+		return;
+	}
+
+	if(!arrayElementExists(config.clients, origin)){
+		this.set('ErrorMessage', "Application '" + origin + "' not approved");
 		this.status = 400;
 		return;
 	}
@@ -96,7 +100,11 @@ module.exports.storePageView = function *(){
 		hits : 1
 	};
 
-	// store in database
+	// HERE's my trick. Basically I'm storing the page views with one day
+	// resolution. That works for now.
+	// another approach is to always insert with the current timestamp
+	// giving ms resolution. That means that the aggregration needs to be
+	// done when we read it back. Now we do the "aggregation" here instead
 	var existingPost = yield pageViews.findOne(
 		{ $and: [
 			{ url : toStore.url},
@@ -107,6 +115,7 @@ module.exports.storePageView = function *(){
 		]}
 	);
 
+	// store in database
 	if(exists(existingPost)){
 		yield pageViews.update(
 			{ _id : existingPost._id},
@@ -148,3 +157,7 @@ var exists = function (value) {
 		return false;
 	return true;
 };
+
+var arrayElementExists = function (arr, element) {
+	return arr.indexOf(element)>-1;
+}

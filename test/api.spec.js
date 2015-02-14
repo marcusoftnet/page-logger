@@ -21,7 +21,7 @@ describe('Page-logger', function(){
 			// Post
 			request
 				.post(API_POST_URL)
-				.set('Origin', 'www.marcusoft.com')
+				.set('Origin', 'www.marcusoft.net')
 				.send(testHelpers.test_pageview())
 				.expect(201, done);
 		});
@@ -35,7 +35,7 @@ describe('Page-logger', function(){
 				// Post a new page view
 				request
 					.post(API_POST_URL)
-					.set('Origin', 'www.marcusoft.com')
+					.set('Origin', 'www.marcusoft.net')
 					.send(testHelpers.test_pageview())
 					.expect(201)
 					.end(done);
@@ -53,7 +53,7 @@ describe('Page-logger', function(){
 				// Post a new page view
 				request
 					.post(API_POST_URL)
-					.set('Origin', 'www.marcusoft.com')
+					.set('Origin', 'www.marcusoft.net')
 					.send(testHelpers.test_pageview())
 					.expect(201)
 					.end(done);
@@ -62,12 +62,12 @@ describe('Page-logger', function(){
 		});
 
 		describe('Page-logger API validation', function(){
-			it('only accept posts from localhost and marcusoft.net' , function(done){
+			it('only accept posts from allowed clients' , function(done){
 				request
 					.post(API_POST_URL)
 					.set('Origin', 'anotherdomain.com')
 					.send(testHelpers.test_pageview())
-					.expect("Access-Control-Allow-Origin", "anotherdomain.com")
+					.expect("ErrorMessage", "Application 'anotherdomain.com' not approved")
 					.end(done);
 			});
 
@@ -79,7 +79,7 @@ describe('Page-logger', function(){
 					// Post
 					request
 						.post(API_POST_URL)
-						.set('Origin', 'www.marcusoft.com')
+						.set('Origin', 'www.marcusoft.net')
 						.send(tv)
 						.expect("ErrorMessage", "Url is required")
 						.expect(400, done);
@@ -94,7 +94,7 @@ describe('Page-logger', function(){
 					// Post
 					request
 						.post(API_POST_URL)
-						.set('Origin', 'www.marcusoft.com')
+						.set('Origin', 'www.marcusoft.net')
 						.send(tv)
 						.expect("ErrorMessage", "Title is required")
 						.expect(400, done);
