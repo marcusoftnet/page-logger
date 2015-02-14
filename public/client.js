@@ -1,7 +1,8 @@
 function logPageView() {
     var pageViewData = {
-        title: document.title,
-        url: document.url
+        title  : document.title,
+        url    : document.location.origin +
+                 document.location.pathname
     };
 
     console.log("Logging page view:");
