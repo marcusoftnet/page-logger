@@ -73,6 +73,7 @@ module.exports.storePageView = function *(){
 	}
 
 	if(!arrayElementExists(config.clients, origin)){
+		console.log('Denied: ' + origin);
 		this.set('ErrorMessage', "Application '" + origin + "' not approved");
 		this.status = 400;
 		return;
