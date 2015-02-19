@@ -15,13 +15,20 @@ module.exports.showStatsPerApp = function *(appName){
 	// create a object that returns all the pageviews within the requested range
 	var query = createStatsPerAppViewQuery(appName, this.query);
 
-	// Sort on number of hits
+	// Sort on number of hits, falling
 	var sortOptions = { sort : { hits : -1 }};
 
 	// Perform the search
 	var viewsFromMongo = yield pageViews.find(query, sortOptions);
 
 	// This should be done by group in mongo... but for the life of me...
+	var views = groupByUrl(viewsFromMongo);
+
+	// Render
+	this.body = yield render("appStats.html", { appname : appName, views : views });
+};
+
+var groupByUrl = function(viewsFromMongo){
 	var views = [];
 	var url = "";
 	for (var i = 0; i < viewsFromMongo.length; i++) {
@@ -37,8 +44,15 @@ module.exports.showStatsPerApp = function *(appName){
 		url = viewsFromMongo[i].url;
 	};
 
-	// Render
-	this.body = yield render("appStats.html", { appname : appName, views : views });
+	return views;
+};
+
+function findByUrl(source, url) {
+  for (var i = 0; i < source.length; i++) {
+    if (source[i].url === url) {
+      return i;
+    }
+  }
 };
 
 var createStatsPerAppViewQuery = function(postedAppName, queryString){
@@ -63,8 +77,7 @@ var createStatsPerAppViewQuery = function(postedAppName, queryString){
 	}
 
 	var query = {
-		$and:
-		[
+		$and:[
 			{ appname : postedAppName },
 			{ viewedAt : {
 				$gte : helpers.startOfDay(start),
@@ -80,11 +93,3 @@ var createStatsPerAppViewQuery = function(postedAppName, queryString){
 
 	return query;
 };
-
-function findByUrl(source, url) {
-  for (var i = 0; i < source.length; i++) {
-    if (source[i].url === url) {
-      return i;
-    }
-  }
-}
