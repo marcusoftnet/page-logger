@@ -7,32 +7,20 @@ module.exports.storePageView = function *(){
 	var postedPageview = yield parse(this);
 
 	if(!helpers.exists(this.get("origin"))){
-		this.set('ErrorMessage', "Application needs to be supplied in the Origin-header");
-		this.status = 400;
-		return;
+		return setError(this, "Application needs to be supplied in the Origin-header");
 	}
 	var applicationName = helpers.getAppName(this.get("origin"));
 
 	if(!helpers.arrayElementExists(config.clients, applicationName)){
 		console.log('Denied: ' + applicationName);
-		this.set('ErrorMessage', "Application not approved");
-		this.status = 400;
-		return;
+		return setError(this, "Application not approved");
 	}
 
 	// Validate url
-	if(!helpers.exists(postedPageview.url)){
-		this.set('ErrorMessage', "Url is required");
-		this.status = 400;
-		return;
-	}
+	if(!helpers.exists(postedPageview.url)){ return setError(this, "Url is required"); }
 
 	// Validate title
-	if(!helpers.exists(postedPageview.title)){
-		this.set('ErrorMessage', "Title is required");
-		this.status = 400;
-		return;
-	}
+	if(!helpers.exists(postedPageview.title)){ return setError(this, "Title is required"); }
 
 	var toStore = {
 		appname : applicationName,
@@ -61,10 +49,14 @@ module.exports.storePageView = function *(){
     		{ upsert : true, safe : false}
     	);
 	}
-	else{
+	else {
 		yield pageViews.insert(toStore);
 	}
 
 	this.status = 201; //Created - we don't supply a way to get the resource back out
 };
 
+function setError(context, message){
+	context.set('ErrorMessage', message);
+	context.status = 400;
+};
