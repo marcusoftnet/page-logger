@@ -4,7 +4,6 @@ var cors = require("koa-cors");
 var parse = require("co-body");
 var serve = require('koa-static');
 
-var handlers = require("./routes.js");
 var config = require("./config/index.js")();
 
 // Configuration
@@ -12,8 +11,9 @@ app.use(serve(__dirname + '/public'));
 app.use(cors());
 
 // routes
-app.use(route.get("/", handlers.showHome));
-app.use(route.get("/:appName", handlers.showStatsPerApp));
+var pageRoutes = require("./routes/pageRoutes.js");
+app.use(route.get("/", pageRoutes.showHome));
+app.use(route.get("/:appName", pageRoutes.showStatsPerApp));
 
 var apiRoutes = require("./routes/apiRoutes.js");
 app.use(route.post("/api/pageview", apiRoutes.storePageView));
