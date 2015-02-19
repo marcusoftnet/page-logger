@@ -112,7 +112,7 @@ describe('Page-logger', function(){
 			it('requires origin header', function(done){
 				co(function *(){
 					var tv = testHelpers.test_pageview();
-					
+
 					// Post
 					request
 						.post(API_POST_URL)

@@ -35,9 +35,9 @@ describe('Page-logger', function(){
 			request
 				.get('/')
 				.expect(200)
-				.expect(function (req) {
-		  			req.text.should.containEql("www.marcusoft.net");
-		  			req.text.should.not.containEql("Kalle");
+				.expect(function (res) {
+		  			res.text.should.containEql("www.marcusoft.net");
+		  			res.text.should.not.containEql("Kalle");
 		  		})
 				.end(done);
 		});
@@ -46,28 +46,27 @@ describe('Page-logger', function(){
 			request
 				.get('/www.marcusoft.net')
 				.expect(200)
-				.expect(function (req) {
-		  			req.text.should.containEql("Awesome post 1");
-		  			req.text.should.containEql("Awesome post 2");
-		  			req.text.should.containEql("Awesome post 3");
-		  			req.text.should.containEql("Awesome post 4");
-		  			req.text.should.containEql("Awesome post 5");
-		  			req.text.should.containEql("Awesome post 6");
-		  			req.text.should.containEql("Awesome post 7");
-		  			req.text.should.containEql("Awesome post 8");
-		  			req.text.should.containEql("Awesome post 9");
-		  			req.text.should.containEql("Awesome post 10");
+				.expect(function (res) {
+		  			res.text.should.containEql("Awesome post 1");
+		  			res.text.should.containEql("Awesome post 2");
+		  			res.text.should.containEql("Awesome post 3");
+		  			res.text.should.containEql("Awesome post 4");
+		  			res.text.should.containEql("Awesome post 5");
+		  			res.text.should.containEql("Awesome post 6");
+		  			res.text.should.containEql("Awesome post 7");
+		  			res.text.should.containEql("Awesome post 8");
+		  			res.text.should.containEql("Awesome post 9");
+		  			res.text.should.containEql("Awesome post 10");
 
-		  			req.text.should.not.containEql("Awesome post 11");
+		  			res.text.should.not.containEql("Awesome post 11");
 
-
-		  			req.text.should.containEql("<td>10</td>");
-		  			req.text.should.containEql("<td>20</td>");
-		  			req.text.should.containEql("<td>30</td>");
-		  			req.text.should.containEql("<td>40</td>");
-		  			req.text.should.containEql("<td>50</td>");
-		  			req.text.should.containEql("<td>60</td>");
-		  			req.text.should.containEql("<td>70</td>");
+		  			res.text.should.containEql("<td>10</td>");
+		  			res.text.should.containEql("<td>20</td>");
+		  			res.text.should.containEql("<td>30</td>");
+		  			res.text.should.containEql("<td>40</td>");
+		  			res.text.should.containEql("<td>50</td>");
+		  			res.text.should.containEql("<td>60</td>");
+		  			res.text.should.containEql("<td>70</td>");
 		  		})
 				.end(done);
 		});
@@ -75,12 +74,12 @@ describe('Page-logger', function(){
 		it('per application, there are links to filter the page views', function (done) {
 			request
 				.get('/www.marcusoft.net')
-				.expect(function (req) {
-		  			req.text.should.containEql("Last day");
-		  			req.text.should.containEql("Last week");
-		  			req.text.should.containEql("Last month");
-		  			req.text.should.containEql("Last year");
-		  			req.text.should.containEql("Last all");
+				.expect(function (res) {
+		  			res.text.should.containEql("Last day");
+		  			res.text.should.containEql("Last week");
+		  			res.text.should.containEql("Last month");
+		  			res.text.should.containEql("Last year");
+		  			res.text.should.containEql("Last all");
 		  		})
 		  		.end(done);
 		});
@@ -105,9 +104,9 @@ describe('Page-logger', function(){
 
 					request
 						.get(TEST_URL + 'day')
-						.expect(function (req) {
-		  					req.text.should.containEql("Post today");
-		  					req.text.should.not.containEql("Post yesterday");
+						.expect(function (res) {
+		  					res.text.should.containEql("Post today");
+		  					res.text.should.not.containEql("Post yesterday");
 		  				})
 						.end(done);
 				});
@@ -119,9 +118,9 @@ describe('Page-logger', function(){
 
 					request
 						.get(TEST_URL)
-						.expect(function (req) {
-		  					req.text.should.containEql("Post today");
-		  					req.text.should.not.containEql("Post yesterday");
+						.expect(function (res) {
+		  					res.text.should.containEql("Post today");
+		  					res.text.should.not.containEql("Post yesterday");
 		  				})
 						.end(done);
 				});
@@ -133,10 +132,10 @@ describe('Page-logger', function(){
 
 					request
 						.get(TEST_URL + 'week')
-						.expect(function (req) {
-		  					req.text.should.containEql("Post today");
-		  					req.text.should.containEql("Post yesterday");
-		  					req.text.should.not.containEql("Post more than a week ago");
+						.expect(function (res) {
+		  					res.text.should.containEql("Post today");
+		  					res.text.should.containEql("Post yesterday");
+		  					res.text.should.not.containEql("Post more than a week ago");
 		  		 		})
 						.end(done);
 				});
@@ -147,11 +146,11 @@ describe('Page-logger', function(){
 
 					request
 						.get(TEST_URL + 'month')
-						.expect(function (req) {
-		  					req.text.should.containEql("Post today");
-		  					req.text.should.containEql("Post yesterday");
-		  					req.text.should.containEql("Post more than a week ago");
-		  					req.text.should.not.containEql("Post more than a month ago");
+						.expect(function (res) {
+		  					res.text.should.containEql("Post today");
+		  					res.text.should.containEql("Post yesterday");
+		  					res.text.should.containEql("Post more than a week ago");
+		  					res.text.should.not.containEql("Post more than a month ago");
 		  		 		})
 						.end(done);
 				});
@@ -162,12 +161,12 @@ describe('Page-logger', function(){
 
 					request
 						.get(TEST_URL + 'year')
-						.expect(function (req) {
-		  					req.text.should.containEql("Post today");
-		  					req.text.should.containEql("Post yesterday");
-		  					req.text.should.containEql("Post more than a week ago");
-		  					req.text.should.containEql("Post more than a month ago");
-		  					req.text.should.not.containEql("Post more than a year ago");
+						.expect(function (res) {
+		  					res.text.should.containEql("Post today");
+		  					res.text.should.containEql("Post yesterday");
+		  					res.text.should.containEql("Post more than a week ago");
+		  					res.text.should.containEql("Post more than a month ago");
+		  					res.text.should.not.containEql("Post more than a year ago");
 		  		 		})
 						.end(done);
 				});
@@ -178,13 +177,13 @@ describe('Page-logger', function(){
 
 					request
 						.get(TEST_URL + 'all')
-						.expect(function (req) {
-		  					req.text.should.containEql("Post today");
-		  					req.text.should.containEql("Post yesterday");
-		  					req.text.should.containEql("Post more than a week ago");
-		  					req.text.should.containEql("Post more than a month ago");
-		  					req.text.should.containEql("Post more than a year ago");
-		  					req.text.should.not.containEql("Post since like forever...");
+						.expect(function (res) {
+		  					res.text.should.containEql("Post today");
+		  					res.text.should.containEql("Post yesterday");
+		  					res.text.should.containEql("Post more than a week ago");
+		  					res.text.should.containEql("Post more than a month ago");
+		  					res.text.should.containEql("Post more than a year ago");
+		  					res.text.should.not.containEql("Post since like forever...");
 		  		 		})
 						.end(done);
 				});
@@ -192,7 +191,7 @@ describe('Page-logger', function(){
 			it('the data is grouped by url', function (done) {
 				co(function *(){
 					yield pageViews.remove({});
-					
+
 					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post1.html', title: 'Post', viewedAt : testHelpers.today(), hits: 1});
 					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post1.html', title: 'Post', viewedAt : testHelpers.today(), hits: 1});
 					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post1.html', title: 'Post', viewedAt : testHelpers.today(), hits: 1});
@@ -205,9 +204,12 @@ describe('Page-logger', function(){
 
 					request
 						.get(TEST_URL + 'week')
-						.expect(function (req) {
-		  					req.text.should.containEql("Post");
-		  					req.text.should.containEql("7");
+						.expect(function (res) {
+		  					res.text.should.containEql("Post");
+		  					res.text.should.containEql("<td>7</td>");
+
+		  					// Should only have 2 tr, one for header and a single data row
+		  					res.text.split("<tr>").length.should.equal(3);
 		  		 		})
 						.end(done);
 				});
