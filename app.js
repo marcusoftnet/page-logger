@@ -14,7 +14,9 @@ app.use(cors());
 // routes
 app.use(route.get("/", handlers.showHome));
 app.use(route.get("/:appName", handlers.showStatsPerApp));
-app.use(route.post("/api/pageview", handlers.storePageView));
+
+var apiRoutes = require("./routes/apiRoutes.js");
+app.use(route.post("/api/pageview", apiRoutes.storePageView));
 
 // Start up
 app.listen(config.port);

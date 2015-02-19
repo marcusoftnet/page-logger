@@ -1,0 +1,70 @@
+var parse = require("co-body");
+var config = require("../config/index.js")();
+var pageViews = require('../lib/db.js').pageViews(config.mongoUrl);
+var helpers = require("./routeHelpers.js");
+
+module.exports.storePageView = function *(){
+	var postedPageview = yield parse(this);
+
+	if(!helpers.exists(this.get("origin"))){
+		this.set('ErrorMessage', "Application needs to be supplied in the Origin-header");
+		this.status = 400;
+		return;
+	}
+	var applicationName = helpers.getAppName(this.get("origin"));
+
+	if(!helpers.arrayElementExists(config.clients, applicationName)){
+		console.log('Denied: ' + applicationName);
+		this.set('ErrorMessage', "Application not approved");
+		this.status = 400;
+		return;
+	}
+
+	// Validate url
+	if(!helpers.exists(postedPageview.url)){
+		this.set('ErrorMessage', "Url is required");
+		this.status = 400;
+		return;
+	}
+
+	// Validate title
+	if(!helpers.exists(postedPageview.title)){
+		this.set('ErrorMessage', "Title is required");
+		this.status = 400;
+		return;
+	}
+
+	var toStore = {
+		appname : applicationName,
+		url : postedPageview.url,
+		title : postedPageview.title,
+		viewedAt : new Date,
+		hits : 1
+	};
+
+	// Storing the pageviews per day
+	var existingPost = yield pageViews.findOne(
+		{ $and: [
+			{ url : toStore.url},
+			{ viewedAt : {
+				$gt : helpers.startOfDay(toStore.viewedAt),
+				$lt : helpers.endOfDay(toStore.viewedAt)
+			}}
+		]}
+	);
+
+	// insert or update in database
+	if(helpers.exists(existingPost)){
+		yield pageViews.update(
+			{ _id : existingPost._id},
+			{ $inc: { hits : 1}},
+    		{ upsert : true, safe : false}
+    	);
+	}
+	else{
+		yield pageViews.insert(toStore);
+	}
+
+	this.status = 201; //Created - we don't supply a way to get the resource back out
+};
+
