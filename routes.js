@@ -17,7 +17,25 @@ module.exports.showStatsPerApp = function *(appName){
 	var sortOptions = { sort : { hits : -1 }};
 
 	// Perform the search
-	var views = yield pageViews.find(query, sortOptions);
+	var viewsFromMongo = yield pageViews.find(query, sortOptions);
+
+	// This should be done by group in mongo... but for the life of me...
+	var views = [];
+	var url = "";
+	for (var i = 0; i < viewsFromMongo.length; i++) {
+		if(url !== viewsFromMongo[i].url){
+			// add new document to the result
+			views.push(viewsFromMongo[i]);
+		}
+		else if(url === viewsFromMongo[i].url){
+			// Find the element in the views collection and increment the number
+			var index = findByUrl(views, url);
+			views[index].hits += viewsFromMongo[i].hits;
+		}
+		url = viewsFromMongo[i].url;
+	};
+
+	// Render
 	this.body = yield render("appStats.html", { appname : appName, views : views });
 };
 
@@ -130,7 +148,6 @@ module.exports.storePageView = function *(){
 	this.status = 201; //Created - we don't supply a way to get the resource back out
 };
 
-
 var startOfDay = function (inDate) {
 	var d = new Date(inDate);
 	d.setSeconds(0);
@@ -160,6 +177,14 @@ var exists = function (value) {
 
 var arrayElementExists = function (arr, element) {
 	return arr.indexOf(element)>-1;
+}
+
+function findByUrl(source, url) {
+  for (var i = 0; i < source.length; i++) {
+    if (source[i].url === url) {
+      return i;
+    }
+  }
 }
 
 var getAppName = function(originHeader){

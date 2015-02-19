@@ -90,12 +90,12 @@ describe('Page-logger', function(){
 
 			function insertDatedTestPosts(){
 				return [
-					pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post today', viewedAt : testHelpers.today()}),
-					pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post yesterday', viewedAt : testHelpers.yesterday()}),
-					pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a week ago', viewedAt : testHelpers.oneWeekAgo()}),
-					pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a month ago', viewedAt : testHelpers.oneMonthAgo()}),
-					pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post more than a year ago', viewedAt : testHelpers.oneYearAgo()}),
-					pageViews.insert({ appname: 'www.marcusoft.net', title: 'Post since like forever...', viewedAt : testHelpers.earlyVeryEarly()})
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post1.html', title: 'Post today', viewedAt : testHelpers.today()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post2.html', title: 'Post yesterday', viewedAt : testHelpers.yesterday()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post3.html', title: 'Post more than a week ago', viewedAt : testHelpers.oneWeekAgo()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post4.html', title: 'Post more than a month ago', viewedAt : testHelpers.oneMonthAgo()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post5.html', title: 'Post more than a year ago', viewedAt : testHelpers.oneYearAgo()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post6.html', title: 'Post since like forever...', viewedAt : testHelpers.earlyVeryEarly()})
 				];
 			};
 
@@ -185,6 +185,29 @@ describe('Page-logger', function(){
 		  					req.text.should.containEql("Post more than a month ago");
 		  					req.text.should.containEql("Post more than a year ago");
 		  					req.text.should.not.containEql("Post since like forever...");
+		  		 		})
+						.end(done);
+				});
+			});
+			it('the data is grouped by url', function (done) {
+				co(function *(){
+					yield pageViews.remove({});
+					
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post1.html', title: 'Post', viewedAt : testHelpers.today(), hits: 1});
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post1.html', title: 'Post', viewedAt : testHelpers.today(), hits: 1});
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post1.html', title: 'Post', viewedAt : testHelpers.today(), hits: 1});
+
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post1.html', title: 'Post', viewedAt : testHelpers.yesterday(), hits: 1});
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post1.html', title: 'Post', viewedAt : testHelpers.yesterday(), hits: 1});
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post1.html', title: 'Post', viewedAt : testHelpers.yesterday(), hits: 1});
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post1.html', title: 'Post', viewedAt : testHelpers.yesterday(), hits: 1});
+
+
+					request
+						.get(TEST_URL + 'week')
+						.expect(function (req) {
+		  					req.text.should.containEql("Post");
+		  					req.text.should.containEql("7");
 		  		 		})
 						.end(done);
 				});
