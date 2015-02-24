@@ -2,6 +2,7 @@ var parse = require("co-body");
 var render = require("../lib/render.js");
 var config = require("../config/index.js")();
 var pageViews = require('../lib/db.js').pageViews(config.mongoUrl);
+var _ = require("underscore");
 
 var helpers = require("./routeHelpers.js");
 
@@ -15,14 +16,16 @@ module.exports.showStatsPerApp = function *(appName){
 	// create a object that returns all the pageviews within the requested range
 	var query = createStatsPerAppViewQuery(appName, this.query);
 
-	// Sort on number of hits, falling
-	var sortOptions = { sort : { url: 1, hits : -1 }};
+	// Sort on url
+	var sortOptions = { sort : { url: 1 }};
 
 	// Perform the search
 	var viewsFromMongo = yield pageViews.find(query, sortOptions);
 
+	var v = _.sortBy(viewsFromMongo, function(item) {item.hits});
+
 	// This should be done by group in mongo... but for the life of me...
-	var views = groupByUrl(viewsFromMongo);
+	var views = groupByUrl(v);
 
 	// Render
 	this.body = yield render("appStats.html", { appname : appName, views : views });
