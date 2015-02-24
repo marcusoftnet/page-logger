@@ -22,10 +22,9 @@ module.exports.showStatsPerApp = function *(appName){
 	// Perform the search
 	var viewsFromMongo = yield pageViews.find(query, sortOptions);
 
-	var v = _.sortBy(viewsFromMongo, function(item) {item.hits});//.reverse();
-
 	// This should be done by group in mongo... but for the life of me...
-	var views = groupByUrl(v);
+	var grouped = groupByUrl(viewsFromMongo);
+	var views = _.sortBy(grouped, function(item) {item.hits});
 
 	// Render
 	this.body = yield render("appStats.html", { appname : appName, views : views });
