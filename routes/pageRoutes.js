@@ -16,7 +16,7 @@ module.exports.showStatsPerApp = function *(appName){
 	var query = createStatsPerAppViewQuery(appName, this.query);
 
 	// Sort on number of hits, falling
-	var sortOptions = { sort : { hits : -1 }};
+	var sortOptions = { sort : { url: 1, hits : -1 }};
 
 	// Perform the search
 	var viewsFromMongo = yield pageViews.find(query, sortOptions);
