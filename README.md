@@ -1,11 +1,11 @@
 A simple log for page views.
 
 # Todo
-Page for a URL showing the hits on that Url over time
-Graphs for the different views
+Graphs for the hits per page view
+Update the filtering code to utilize underscore
 
 # Doing
-Update the filtering code to utilze underscore
+Page for a URL showing the hits on that Url over time
 
 # Done
 Filter out all data less than 1
