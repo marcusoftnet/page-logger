@@ -84,7 +84,7 @@ describe('Page-logger', function(){
 		  		.end(done);
 		});
 
-		describe('I can view the pageviews', function () {
+		describe('I can view the pageviews per application', function () {
 			var TEST_URL = '/www.marcusoft.net/?filter=';
 
 			function insertDatedTestPosts(){
@@ -214,6 +214,11 @@ describe('Page-logger', function(){
 						.end(done);
 				});
 			});
+		});
+
+		describe('I can view views per page also', function () {
+			it('has a page for a url');
+			it('displays all the hits for that url');
 		});
 	});
 });
