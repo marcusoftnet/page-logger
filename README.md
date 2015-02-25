@@ -1,12 +1,16 @@
-A simple log for page views. 
+A simple log for page views.
 
 # Todo
-Styling with bootstrap
+Page for a URL showing the hits on that Url over time
+Graphs for the different views
 
 # Doing
-Filtering on dates
+Update the filtering code to utilze underscore
 
 # Done
+Filter out all data less than 1
+Filtering on dates
+Styling with bootstrap
 First barebones version deployed
 
 # What I've learned

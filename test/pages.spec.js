@@ -89,12 +89,12 @@ describe('Page-logger', function(){
 
 			function insertDatedTestPosts(){
 				return [
-					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post1.html', title: 'Post today', viewedAt : testHelpers.today()}),
-					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post2.html', title: 'Post yesterday', viewedAt : testHelpers.yesterday()}),
-					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post3.html', title: 'Post more than a week ago', viewedAt : testHelpers.oneWeekAgo()}),
-					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post4.html', title: 'Post more than a month ago', viewedAt : testHelpers.oneMonthAgo()}),
-					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post5.html', title: 'Post more than a year ago', viewedAt : testHelpers.oneYearAgo()}),
-					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post6.html', title: 'Post since like forever...', viewedAt : testHelpers.earlyVeryEarly()})
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post1.html', hits: 10, title: 'Post today', viewedAt : testHelpers.today()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post2.html', hits: 10, title: 'Post yesterday', viewedAt : testHelpers.yesterday()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post3.html', hits: 10, title: 'Post more than a week ago', viewedAt : testHelpers.oneWeekAgo()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post4.html', hits: 10, title: 'Post more than a month ago', viewedAt : testHelpers.oneMonthAgo()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post5.html', hits: 10, title: 'Post more than a year ago', viewedAt : testHelpers.oneYearAgo()}),
+					pageViews.insert({ appname: 'www.marcusoft.net', url : 'http://www.marcusoft.net/post6.html', hits: 10, title: 'Post since like forever...', viewedAt : testHelpers.earlyVeryEarly()})
 				];
 			};
 

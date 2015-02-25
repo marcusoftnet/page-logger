@@ -25,6 +25,7 @@ module.exports.showStatsPerApp = function *(appName){
 	// This should be done by group in mongo... but for the life of me...
 	var grouped = groupByUrl(viewsFromMongo);
 	var views = _.sortBy(grouped, "hits").reverse();
+	views = _.filter(views, function (v) { return v.hits > 1 });
 
 	// Render
 	this.body = yield render("appStats.html", { appname : appName, views : views });
