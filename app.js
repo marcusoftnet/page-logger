@@ -11,14 +11,15 @@ app.use(serve(__dirname + '/public'));
 app.use(cors());
 
 // routes
-var pageRoutes = require("./routes/pageRoutes.js");
-app.use(route.get("/url/:url", pageRoutes.showUrlStats));
-app.use(route.get("/", pageRoutes.showHome));
-
-var appStatsRoutes = require("./routes/appStatRoutes.js");
-app.use(route.get("/:appName", appStatsRoutes.showStatsPerApp));
-
+var homeRoutes = require("./routes/homeRoutes.js");
+var appStatsRoutes = require("./routes/appStatsRoutes.js");
+var urlStatsRoutes = require("./routes/urlStatsRoutes.js");
 var apiRoutes = require("./routes/apiRoutes.js");
+
+app.use(route.get("/url/:url", urlStatsRoutes.showUrlStats));
+app.use(route.get("/:appName", appStatsRoutes.showStatsPerApp));
+app.use(route.get("/", homeRoutes.showHome));
+
 app.use(route.post("/api/pageview", apiRoutes.storePageView));
 
 // Start up

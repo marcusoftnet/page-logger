@@ -1,4 +1,3 @@
-var parse = require("co-body");
 var render = require("../lib/render.js");
 var config = require("../config/index.js")();
 var pageViews = require('../lib/db.js').pageViews(config.mongoUrl);
