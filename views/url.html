@@ -1,12 +1,12 @@
 {% extends 'layout.html' %}
 {% block heading %}
-<h1>Stats for {{ title }}</h1>
+<h1>Stats for '{{ title }}'</h1>
 {% endblock%}
 
 {% block content %}
 <div class="row">
     <div class="col-lg-offset-1 col-lg-9">
-        <p class="lead">Stats for '{{ title }}' at {{ url }}</p>
+        <p class="lead">Stats for '{{ title }}' at '{{ url }}'</p>
     </div>
     <div class="col-lg-2">
         <a target="_blank" href="{{ url }}" class="btn btn-default btn-sm">Go there!</a>
@@ -17,10 +17,28 @@
 </div>
 <div class="row">
     <div class="col-lg-offset-1 col-lg-9">
+    	<canvas id="urlStatsChart" width="100%"></canvas>
     </div>
 </div>
 
 <script type="text/javascript">
     var xs = {{ JSON.stringify(hits) }};
     var ys = {{ JSON.stringify(viewsAt) }};
+
+    var data = {
+    	labels: ys,
+    	datasets: [{
+            // fillColor: "rgba(220,220,220,0.2)",
+            // strokeColor: "rgba(220,220,220,1)",
+            // pointColor: "rgba(220,220,220,1)",
+            // pointStrokeColor: "#fff",
+            // pointHighlightFill: "#fff",
+            // pointHighlightStroke: "rgba(220,220,220,1)",
+        	label: '{{ title }}',
+        	data : xs
+        }]
+    };
+
+    var ctx = document.getElementById("urlStatsChart").getContext("2d");
+    var myLineChart = new Chart(ctx).Line(data);
 </script>
