@@ -13,8 +13,10 @@ app.use(cors());
 // routes
 var pageRoutes = require("./routes/pageRoutes.js");
 app.use(route.get("/url/:url", pageRoutes.showUrlStats));
-app.use(route.get("/:appName", pageRoutes.showStatsPerApp));
 app.use(route.get("/", pageRoutes.showHome));
+
+var appStatsRoutes = require("./routes/appStatRoutes.js");
+app.use(route.get("/:appName", appStatsRoutes.showStatsPerApp));
 
 var apiRoutes = require("./routes/apiRoutes.js");
 app.use(route.post("/api/pageview", apiRoutes.storePageView));
