@@ -8,7 +8,7 @@ var helpers = require("./routeHelpers.js");
 module.exports.showUrlStats = function *(urlEncoded){
 	var url = decodeURIComponent(urlEncoded);
 
-	var pageViewsForUrl = yield pageViews.find({url : url});
+	var pageViewsForUrl = yield pageViews.find({url : url}, { sort : { viewedAt: -1 }});
 	var vm = createVmForUrlStats(pageViewsForUrl);
 
 	this.body = yield render("url.html", vm);
