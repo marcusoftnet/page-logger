@@ -4,9 +4,9 @@ A simple log for page views.
 Update the filtering code to utilize underscore
 
 # Doing
-Graphs for the hits per page view
 
 # Done
+Graphs for the hits per page view
 Page for a URL showing the hits on that Url over time
 Filter out all data less than 1
 Filtering on dates
