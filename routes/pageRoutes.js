@@ -15,16 +15,23 @@ module.exports.showUrlStats = function *(urlEncoded){
 	var url = decodeURIComponent(urlEncoded);
 
 	var pageViewsForUrl = yield pageViews.find({url : url});
-	var first = _.find(pageViewsForUrl, function(v){ return v.title != ""; });
-	var vm = {
-		hits : _.pluck(pageViewsForUrl, 'hits'),
-		viewsAt : _.pluck(pageViewsForUrl, 'viewedAt'),
-		title : first.title,
-		appname : first.appname,
-		url : url
-	};
+	var vm = createVmForUrlStats(pageViewsForUrl);
 
 	this.body = yield render("url.html", vm);
+};
+
+var createVmForUrlStats = function (pageViewsForUrl) {
+	var firstView = _.find(pageViewsForUrl, function(v){ return v.title != ""; });
+	var viewDates = _.map(pageViewsForUrl, function (v) { return dateToYYMMDD(v.viewedAt);});
+	var hits = _.pluck(pageViewsForUrl, 'hits');
+
+	return vm = {
+		hits : hits,
+		viewsAt : viewDates,
+		title : firstView.title,
+		appname : firstView.appname,
+		url : firstView.url
+	};
 };
 
 module.exports.showStatsPerApp = function *(appName){
@@ -111,4 +118,11 @@ var createStatsPerAppViewQuery = function(postedAppName, queryString){
 	// console.log("Stop : " + endOfDay(stop));
 
 	return query;
+};
+
+var dateToYYMMDD = function(date) {
+	    var d = date.getDate();
+	    var m = date.getMonth() + 1;
+	    var y = date.getFullYear();
+	    return '' + y + '-' + (m<=9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
 };
