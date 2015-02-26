@@ -34,6 +34,14 @@ var createVmForUrlStats = function (pageViewsForUrl) {
 	};
 };
 
+
+var dateToYYMMDD = function(date) {
+	    var d = date.getDate();
+	    var m = date.getMonth() + 1;
+	    var y = date.getFullYear();
+	    return '' + y + '-' + (m<=9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
+};
+
 module.exports.showStatsPerApp = function *(appName){
 
 	// create a object that returns all the pageviews within the requested range
@@ -118,11 +126,4 @@ var createStatsPerAppViewQuery = function(postedAppName, queryString){
 	// console.log("Stop : " + endOfDay(stop));
 
 	return query;
-};
-
-var dateToYYMMDD = function(date) {
-	    var d = date.getDate();
-	    var m = date.getMonth() + 1;
-	    var y = date.getFullYear();
-	    return '' + y + '-' + (m<=9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
 };
