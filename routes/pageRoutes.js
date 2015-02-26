@@ -24,8 +24,6 @@ module.exports.showUrlStats = function *(urlEncoded){
 		url : url
 	};
 
-	console.log(vm);
-
 	this.body = yield render("url.html", vm);
 };
 

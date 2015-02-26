@@ -249,7 +249,15 @@ describe('Page-logger', function(){
 			  		})
 					.end(done);
 			});
-			it('displays all the hits for that url');
+			it('displays all the hits for that url', function (done) {
+				request
+					.get('/url/'+ TEST_URL_ENC)
+					.expect(200)
+					.expect(function (res) {
+			  			res.text.should.containEql("[10,20,30,40,50]");
+			  		})
+					.end(done);
+			});
 		});
 	});
 });
