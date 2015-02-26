@@ -37,9 +37,9 @@
             <tbody>
                 {% for pv in views %}
                 <tr>
-                    <td>{{ pv.title }}</td>
+                    <td><a href="/url/{{ encodeURIComponent(pv.url)}}">{{ pv.title }}</a></td>
                     <td>{{ pv.hits }}</td>
-                    <td align="right"><a target="_blank" href="{{ pv.url}}" class="btn btn-default btn-sm">Go there!</a>
+                    <td align="right"><a target="_blank" href="{{ pv.url }}" class="btn btn-default btn-sm">Go there!</a>
                     </td>
                 </tr>
                 {% endfor %}

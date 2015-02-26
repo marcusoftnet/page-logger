@@ -217,7 +217,38 @@ describe('Page-logger', function(){
 		});
 
 		describe('I can view views per page also', function () {
-			it('has a page for a url');
+
+			var TEST_URL = "http://www.marcusoft.net/2015/04/post.html";
+			var TEST_URL_ENC = encodeURIComponent(TEST_URL);
+			var TEST_TITLE = "Title";
+			var APP_NAME = "www.marcusoft.net";
+
+			function insertDatedTestPosts(){
+				return [
+					pageViews.insert({ appname: APP_NAME, url : TEST_URL, hits: 10, title: TEST_TITLE, viewedAt : testHelpers.today()}),
+					pageViews.insert({ appname: APP_NAME, url : TEST_URL, hits: 20, title: TEST_TITLE, viewedAt : testHelpers.yesterday()}),
+					pageViews.insert({ appname: APP_NAME, url : TEST_URL, hits: 30, title: TEST_TITLE, viewedAt : testHelpers.oneWeekAgo()}),
+					pageViews.insert({ appname: APP_NAME, url : TEST_URL, hits: 40, title: TEST_TITLE, viewedAt : testHelpers.oneMonthAgo()}),
+					pageViews.insert({ appname: APP_NAME, url : TEST_URL, hits: 50, title: TEST_TITLE, viewedAt : testHelpers.oneYearAgo()}),
+				];
+			};
+
+			beforeEach(function (done) {
+				co(function *(){
+					yield insertDatedTestPosts();
+					done();
+				});
+			});
+			it('has a page for a url', function (done) {
+				request
+					.get('/url/'+ TEST_URL_ENC)
+					.expect(200)
+					.expect(function (res) {
+			  			res.text.should.containEql(TEST_URL);
+			  			res.text.should.containEql(TEST_TITLE);
+			  		})
+					.end(done);
+			});
 			it('displays all the hits for that url');
 		});
 	});

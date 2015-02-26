@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block heading %}
+<h1>Stats for {{ title }}</h1>
+{% endblock%}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-offset-1 col-lg-9">
+        <p class="lead">Stats for '{{ title }}' at {{ url }}</p>
+    </div>
+    <div class="col-lg-2">
+        <a target="_blank" href="{{ url }}" class="btn btn-default btn-sm">Go there!</a>
+    </div>
+</div>
+<div class="row">
+    <hr>
+</div>
+<div class="row">
+<script type="text/javascript">
+    var xs = {{ JSON.stringify(hits) }};
+    var ys = {{ JSON.stringify(viewsAt) }};
+</script>
+</div>

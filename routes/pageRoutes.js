@@ -11,6 +11,24 @@ module.exports.showHome = function *(){
 	this.body = yield render("home.html", { appnames : apps });
 };
 
+module.exports.showUrlStats = function *(urlEncoded){
+	var url = decodeURIComponent(urlEncoded);
+
+	var pageViewsForUrl = yield pageViews.find({url : url});
+	var first = _.find(pageViewsForUrl, function(v){ return v.title != ""; });
+	var vm = {
+		hits : _.pluck(pageViewsForUrl, 'hits'),
+		viewsAt : _.pluck(pageViewsForUrl, 'viewedAt'),
+		title : first.title,
+		appname : first.appname,
+		url : url
+	};
+
+	console.log(vm);
+
+	this.body = yield render("url.html", vm);
+};
+
 module.exports.showStatsPerApp = function *(appName){
 
 	// create a object that returns all the pageviews within the requested range
