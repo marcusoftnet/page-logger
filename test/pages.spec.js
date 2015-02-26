@@ -254,7 +254,7 @@ describe('Page-logger', function(){
 					.get('/url/'+ TEST_URL_ENC)
 					.expect(200)
 					.expect(function (res) {
-			  			res.text.should.containEql("[10,20,30,40,50]");
+			  			res.text.should.containEql("[50,40,30,20,10]");
 			  		})
 					.end(done);
 			});
