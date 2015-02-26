@@ -17,7 +17,7 @@
 </div>
 <div class="row">
     <div class="col-lg-offset-1 col-lg-9">
-    	<canvas id="urlStatsChart" width="100%"></canvas>
+    	<canvas id="urlStatsChart" width="400" height="400"></canvas>
     </div>
 </div>
 
@@ -28,12 +28,12 @@
     var data = {
     	labels: ys,
     	datasets: [{
-            // fillColor: "rgba(220,220,220,0.2)",
-            // strokeColor: "rgba(220,220,220,1)",
-            // pointColor: "rgba(220,220,220,1)",
-            // pointStrokeColor: "#fff",
-            // pointHighlightFill: "#fff",
-            // pointHighlightStroke: "rgba(220,220,220,1)",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
         	label: '{{ title }}',
         	data : xs
         }]
