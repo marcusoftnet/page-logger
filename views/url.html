@@ -18,8 +18,8 @@
     <hr>
 </div>
 <div class="row">
-    <div class="col-lg-offset-1 col-lg-9">
-    	<canvas id="urlStatsChart" width="600" height="600"></canvas>
+    <div id="statsChartDiv" class="col-lg-offset-1 col-lg-9">
+    	<canvas id="statsChart" width="100" height="100"></canvas>
     </div>
 </div>
 
@@ -41,6 +41,25 @@
         }]
     };
 
-    var ctx = document.getElementById("urlStatsChart").getContext("2d");
-    var myLineChart = new Chart(ctx).Line(data);
+    jQuery(document).ready( function(){
+        //Get the canvas & context
+        var c = $('#statsChart');
+        var ct = c.get(0).getContext('2d');
+        var container = $(c).parent();
+
+        //Run function when browser resizes
+        $(window).resize( respondCanvas );
+
+        function respondCanvas(){
+            c.attr('width', $(container).width() ); //max width
+            c.attr('height', $(container).height() ); //max height
+
+            //Call a function to redraw other content (texts, images etc)
+            var myLineChart = new Chart(ct).Line(data);
+        };
+
+        //Initial call
+        respondCanvas();
+
+    });
 </script>
