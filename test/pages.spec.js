@@ -254,6 +254,19 @@ describe('Page-logger', function(){
 					.get('/url/'+ TEST_URL_ENC)
 					.expect(200)
 					.expect(function (res) {
+			  			res.text.should.containEql("50");
+			  			res.text.should.containEql("40");
+			  			res.text.should.containEql("30");
+			  			res.text.should.containEql("20");
+			  			res.text.should.containEql("10");
+			  		})
+					.end(done);
+			});
+			it('displays the hits in date order', function (done) {
+				request
+					.get('/url/'+ TEST_URL_ENC)
+					.expect(200)
+					.expect(function (res) {
 			  			res.text.should.containEql("[50,40,30,20,10]");
 			  		})
 					.end(done);
