@@ -3,12 +3,14 @@ var route = require("koa-route");
 var cors = require("koa-cors");
 var parse = require("co-body");
 var serve = require('koa-static');
+var favicon = require('koa-favicon');
 
 var config = require("./config/index.js")();
 
 // Configuration
-app.use(serve(__dirname + '/public'));
 app.use(cors());
+app.use(serve(__dirname + '/public'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 // routes
 var homeRoutes = require("./routes/homeRoutes.js");

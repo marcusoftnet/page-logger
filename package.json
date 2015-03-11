@@ -36,6 +36,7 @@
     "co-views": "^0.1.0",
     "koa": "^0.15.0",
     "koa-cors": "0.0.14",
+    "koa-favicon": "^1.2.0",
     "koa-route": "^2.4.0",
     "koa-static": "~1.4.9",
     "monk": "^0.9.1",
