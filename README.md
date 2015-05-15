@@ -1,6 +1,8 @@
 A simple log for page views.
 
 # Todo
+Calculate a sum per view
+Draw a diagram per view
 Update the filtering code to utilize underscore
 
 # Doing
