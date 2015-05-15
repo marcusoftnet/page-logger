@@ -75,11 +75,11 @@ describe('Page-logger', function(){
 			request
 				.get('/www.marcusoft.net')
 				.expect(function (res) {
-		  			res.text.should.containEql("Last day");
-		  			res.text.should.containEql("Last week");
-		  			res.text.should.containEql("Last month");
-		  			res.text.should.containEql("Last year");
-		  			res.text.should.containEql("Last all");
+		  			res.text.should.containEql("Day");
+		  			res.text.should.containEql("Week");
+		  			res.text.should.containEql("Month");
+		  			res.text.should.containEql("Year");
+		  			res.text.should.containEql("All");
 		  		})
 		  		.end(done);
 		});
