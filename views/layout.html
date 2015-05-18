@@ -7,7 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A simple statistics site for pages I'm using">
     <meta name="author" content="Marcus Hammarberg, @marcusoftnet">
-    <title>Page-logger - übersimple page stats</title>
+    <title>
+        {% block title %}
+            Page-logger - übersimple page stats  
+        {% endblock %}    
+    </title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -31,10 +35,11 @@
 <body>
     <div class="container">
         <div class="jumbotron">
-            {% block heading %}
-	            <h1>Page-logger - simple page stats</h1>
-	            <p class="lead">Beacuse... miss this simple report from <a href="www.blogger.com">Blogger</a>. Sue me!</p>
-            {% endblock %}
+            <h1>
+                {% block title %}
+                    Page-logger - simple page stats
+                {% endblock %}
+            </h1>
         </div>
 
         {% block content %}
