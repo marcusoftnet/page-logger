@@ -5,10 +5,10 @@ function logPageView(title) {
                  document.location.pathname
     };
 
-    console.log("Logging page view:");
-    console.log(pageViewData);
+    // console.log("Logging page view:");
+    // console.log(pageViewData);
 
     $.post("https://page-logger.herokuapp.com/api/pageview", pageViewData, function() {
-        console.log(pageViewData.title + " logged - no errors");
+        // console.log(pageViewData.title + " logged - no errors");
     });
 };
