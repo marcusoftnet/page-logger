@@ -1,6 +1,6 @@
-function logPageView() {
+function logPageView(title) {
     var pageViewData = {
-        title  : document.title,
+        title  : title || document.title,
         url    : document.location.origin +
                  document.location.pathname
     };
