@@ -208,8 +208,8 @@ describe('Page-logger', function(){
 		  					res.text.should.containEql("Post");
 		  					res.text.should.containEql("<td>7</td>");
 
-		  					// Should only have 2 tr, one for header and a single data row
-		  					res.text.split("<tr>").length.should.equal(3);
+		  					// Should only have 3 <tr>, one for header and a single data row and a total
+		  					res.text.split("<tr>").length.should.equal(4);
 		  		 		})
 						.end(done);
 				});
