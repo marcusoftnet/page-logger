@@ -6,7 +6,7 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --harmony-generators -u bdd -R spec -b",
     "start": "node --harmony app.js prod",
-    "startLocal": "nodemon --harmony app.js"
+    "startLocal": "nodemon -e js,html --harmony app.js"
   },
   "repository": {
     "type": "git",

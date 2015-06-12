@@ -26,6 +26,13 @@ Stats for {{ appname }}
 </div>
 <div class="row">
     <div class="col-lg-offset-1 col-lg-9">
+        <h2>
+            Showing {{ views.length }} pages with {{ total }} hits
+        </h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-offset-1 col-lg-9">
         <table class="table table-striped table-hover ">
             <thead>
                 <tr>
@@ -37,12 +44,21 @@ Stats for {{ appname }}
             <tbody>
                 {% for pv in views %}
                 <tr>
-                    <td><a href="/url/{{ encodeURIComponent(pv.url)}}">{{ pv.title }}</a></td>
-                    <td>{{ pv.hits }}</td>
-                    <td align="right"><a target="_blank" href="{{ pv.url }}" class="btn btn-default btn-sm">Go there!</a>
+                    <td>
+                        <a href="/url/{{ encodeURIComponent(pv.url)}}">{{ pv.title }}</a>
+                    </td>
+                    <td>
+                        {{ pv.hits }}
+                    </td>
+                    <td align="right">
+                        <a target="_blank" href="{{ pv.url }}" class="btn btn-default btn-sm">Go there!</a>
                     </td>
                 </tr>
                 {% endfor %}
+                <tr>
+                    <td>Total hits</td>
+                    <td>{{ total }}</td>
+                </tr>
             </tbody>
         </table>
     </div>
