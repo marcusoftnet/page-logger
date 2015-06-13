@@ -22,7 +22,11 @@ module.exports.showStatsPerApp = function *(appName){
 	var totalHits = _.reduce(views, function (memo, view) { return memo + view.hits; }, 0);
 
 	// Render
-	this.body = yield render("appStats.html", { appname : appName, views : views, total : totalHits  });
+	this.body = yield render("appStats.html", { 
+		appname : appName, 
+		views : views, 
+		total : totalHits,
+		filter : this.query.filter || "day"  });
 };
 
 var groupByUrl = function(viewsFromMongo){
@@ -51,6 +55,7 @@ function findByUrl(source, url) {
     }
   }
 };
+
 
 var createStatsPerAppViewQuery = function(postedAppName, queryString){
 	var filterQsParam = queryString.filter || "day";
