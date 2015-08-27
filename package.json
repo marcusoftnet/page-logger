@@ -33,7 +33,7 @@
   "dependencies": {
     "co-body": "^1.0.0",
     "co-monk": "^1.0.0",
-    "co-views": "^0.1.0",
+    "co-views": "^2.0.0",
     "koa": "^0.15.0",
     "koa-cors": "0.0.14",
     "koa-favicon": "^1.2.0",
@@ -44,6 +44,6 @@
     "underscore": "^1.8.2"
   },
   "engines": {
-    "node": "0.12.2"
+    "node": "0.12.7"
   }
 }
