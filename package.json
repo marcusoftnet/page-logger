@@ -1,6 +1,6 @@
 {
   "name": "page-logger",
-  "version": "1.47.0",
+  "version": "1.48.0",
   "description": "Logs request to posts for www.marcusoft.net",
   "main": "app.js",
   "scripts": {
@@ -8,11 +8,11 @@
     "test:deploy": "npm test -- -R dot",
     "start": "node --harmony app.js prod",
     "startLocal": "nodemon -e js,html --harmony app.js",
-    "launch" : "open http://page-logger.herokuapp.com",
-    "push:heroku" : "git push heroku master",
-    "push:github" : "git push --tags origin HEAD:master",
-    "push" : "npm run push:github && npm run push:heroku",
-    "deploy:prod" : "npm run test:deploy && npm version minor && npm run push && npm run launch"
+    "launch": "open http://page-logger.herokuapp.com",
+    "push:heroku": "git push heroku master",
+    "push:github": "git push --tags origin HEAD:master",
+    "push": "npm run push:github && npm run push:heroku",
+    "deploy:prod": "npm run test:deploy && npm version minor && npm run push && npm run launch"
   },
   "repository": {
     "type": "git",
