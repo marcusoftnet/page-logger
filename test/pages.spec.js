@@ -271,6 +271,15 @@ describe('Page-logger', function(){
 			  		})
 					.end(done);
 			});
+			it('the total number of hits are calculated', function (done) {
+				request
+					.get('/url/'+ TEST_URL_ENC)
+					.expect(200)
+					.expect(function (res) {
+			  			res.text.should.containEql("viewed '150' times");
+			  		})
+					.end(done);
+			});
 		});
 	});
 });

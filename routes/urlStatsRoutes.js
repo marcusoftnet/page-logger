@@ -18,9 +18,11 @@ var createVmForUrlStats = function (pageViewsForUrl) {
 	var firstView = _.find(pageViewsForUrl, function(v){ return v.title != ""; });
 	var viewDates = _.map(pageViewsForUrl, function (v) { return dateToYYMMDD(v.viewedAt);});
 	var hits = _.pluck(pageViewsForUrl, 'hits');
+	var totalHits = _.reduce(hits, function(memo, num){ return memo + num; }, 0);
 
-	return vm = {
+	return {
 		hits : hits,
+		totalHits : totalHits,
 		viewsAt : viewDates,
 		title : firstView.title,
 		appname : firstView.appname,
