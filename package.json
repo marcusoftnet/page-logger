@@ -4,10 +4,10 @@
   "description": "Logs request to posts for www.marcusoft.net",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --harmony-generators -u bdd -R spec -b",
+    "test": "mocha -u bdd -R spec -b",
     "test:deploy": "npm test -- -R dot",
-    "start": "node --harmony app.js prod",
-    "startLocal": "nodemon -e js,html --harmony app.js",
+    "start": "node app.js prod",
+    "startLocal": "nodemon -e js,html app.js",
     "launch": "open http://page-logger.herokuapp.com",
     "push:heroku": "git push heroku master",
     "push:github": "git push --tags origin HEAD:master",
@@ -49,6 +49,7 @@
     "underscore": "^1.8.2"
   },
   "engines": {
-    "node": "0.12.7"
+    "node": "4.0.0",
+    "npm" : "2.14.2"
   }
 }
