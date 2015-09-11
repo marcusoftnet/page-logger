@@ -1,6 +1,6 @@
 {
   "name": "page-logger",
-  "version": "1.51.0",
+  "version": "1.52.0",
   "description": "Logs request to posts for www.marcusoft.net",
   "main": "app.js",
   "scripts": {
