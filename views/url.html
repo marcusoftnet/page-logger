@@ -23,6 +23,7 @@ Stats for '{{ title }}'
 <div class="row">
     <div id="statsChartDiv" class="col-lg-offset-1 col-lg-9">
     	<canvas id="statsChart" width="100" height="100"></canvas>
+        <span id="onlyOneDay"></span>
     </div>
 </div>
 
@@ -30,39 +31,50 @@ Stats for '{{ title }}'
     var xs = {{ JSON.stringify(hits) }};
     var ys = {{ JSON.stringify(viewsAt) }};
 
-    var data = {
-    	labels: ys,
-    	datasets: [{
-            fillColor: "rgba(220,220,220,0.2)",
-            strokeColor: "rgba(220,220,220,1)",
-            pointColor: "rgba(220,220,220,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(220,220,220,1)",
-        	label: '{{ title }}',
-        	data : xs
-        }]
-    };
+    if(xs.length === 1) {
+       $("#statsChart").hide();
+       $("#onlyOneDay").text(xs[0]);
+       $("#onlyOneDay").css({'font-size':'14vmax'});
 
-    jQuery(document).ready( function(){
-        //Get the canvas & context
-        var c = $('#statsChart');
-        var ct = c.get(0).getContext('2d');
-        var container = $(c).parent();
+    }
 
-        //Run function when browser resizes
-        $(window).resize( respondCanvas );
+    if(xs.length > 1){
+        $("#onlyOneDay").hide(); 
 
-        function respondCanvas(){
-            c.attr('width', $(container).width() ); //max width
-            c.attr('height', $(container).height() ); //max height
-
-            //Call a function to redraw other content (texts, images etc)
-            var myLineChart = new Chart(ct).Line(data);
+        var data = {
+        	labels: ys,
+        	datasets: [{
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+            	label: '{{ title }}',
+            	data : xs
+            }]
         };
 
-        //Initial call
-        respondCanvas();
+        jQuery(document).ready( function(){
+            //Get the canvas & context
+            var c = $('#statsChart');
+            var ct = c.get(0).getContext('2d');
+            var container = $(c).parent();
 
-    });
+            //Run function when browser resizes
+            $(window).resize( respondCanvas );
+
+            function respondCanvas(){
+                c.attr('width', $(container).width() ); //max width
+                c.attr('height', $(container).height() ); //max height
+
+                //Call a function to redraw other content (texts, images etc)
+                var myLineChart = new Chart(ct).Line(data);
+            };
+
+            //Initial call
+            respondCanvas();
+
+        });
+    } 
 </script>
