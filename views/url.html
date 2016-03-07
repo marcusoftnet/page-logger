@@ -21,10 +21,13 @@ Stats for '{{ title }}'
     Total this page has been viewed '{{ totalHits }}' times in total
 </div>
 <div class="row">
-    The best day was '{{ max.viewedAt }}' when this page was viewed '{{ max.hits }}' times
+    The best day was '{{ max.viewedAt.toISOString().split('T')[0] }}' when this page was viewed '{{ max.hits }}' times
 </div>
 <div class="row">
-    The worst day was '{{ min.viewedAt }}' when this page was viewed '{{ min.hits }}' times
+    The worst day was '{{ min.viewedAt.toISOString().split('T')[0] }}' when this page was viewed '{{ min.hits }}' times
+</div>
+<div class="row">
+    Last 15 days:
 </div>
 <div class="row">
     <div id="statsChartDiv" class="col-lg-offset-1 col-lg-9">
