@@ -291,7 +291,7 @@ describe('Page-logger', function(){
 					.get('/url/'+ TEST_URL_ENC)
 					.expect(200)
 					.expect(function (res) {
-			  			res.text.should.containEql("'50' hits");
+			  			res.text.should.containEql("'50' views");
 			  		})
 					.end(done);
 			});
@@ -300,7 +300,7 @@ describe('Page-logger', function(){
 					.get('/url/'+ TEST_URL_ENC)
 					.expect(200)
 					.expect(function (res) {
-			  			res.text.should.containEql("'10' hits");
+			  			res.text.should.containEql("'10' views");
 			  		})
 					.end(done);
 			});
