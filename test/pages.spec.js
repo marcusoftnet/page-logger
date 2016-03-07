@@ -250,30 +250,27 @@ describe('Page-logger', function(){
 					.end(done);
 			});
 			it('displays the 20 latest hits that url', function (done) {
-				// co(function *(){
-				// 	var testData = [];
+				co(function *(){
+					var testData = [];
 
-				// 	for (var i = 0; i < 16; i++) {
-				// 		pageViews.insert({ appname: APP_NAME, url : TEST_URL, hits: i+1, title: TEST_TITLE, viewedAt : testHelpers.today()}),
-				// 	};
+					for (var i = 0; i < 16; i++) {
+						testData.push(pageViews.insert({ appname: APP_NAME, url : TEST_URL, hits: i+1, title: TEST_TITLE, viewedAt : testHelpers.daysBeforeNow(i+1)}));
+					};
 
-				// 	yield insertDatedTestPosts();
-				// 	done();
-					
+					yield insertDatedTestPosts();
 
-				// 	request
-				// 		.get('/url/'+ TEST_URL_ENC)
-				// 		.expect(200)
-				// 		.expect(function (res) {
-				//   			res.text.should.containEql("50");
-				//   			res.text.should.containEql("40");
-				//   			res.text.should.containEql("30");
-				//   			res.text.should.containEql("20");
-				//   			res.text.should.containEql("10");
-				//   		})
-				// 		.end(done);
-				// });
-				done();
+					request
+						.get('/url/'+ TEST_URL_ENC)
+						.expect(200)
+						.expect(function (res) {
+				  			res.text.should.containEql("50");
+				  			res.text.should.containEql("40");
+				  			res.text.should.containEql("30");
+				  			res.text.should.containEql("20");
+				  			res.text.should.containEql("10");
+				  		})
+						.end(done);
+				});
 			});
 			it('displays the hits in date order', function (done) {
 				request
