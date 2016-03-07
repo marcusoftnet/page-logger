@@ -19,9 +19,13 @@ var createVmForUrlStats = function (pageViewsForUrl) {
 	var viewDates = _.map(pageViewsForUrl, function (v) { return dateToYYMMDD(v.viewedAt);});
 	var hits = _.pluck(pageViewsForUrl, 'hits');
 	var totalHits = _.reduce(hits, function(memo, num){ return memo + num; }, 0);
+	var maxData = _.max(pageViewsForUrl, function(v) { return v.hits; });
+	var minData = _.min(pageViewsForUrl, function(v) { return v.hits; });
 
 	return {
 		hits : hits,
+		max : maxData,
+		min : minData,
 		totalHits : totalHits,
 		viewsAt : viewDates,
 		title : firstView.title,

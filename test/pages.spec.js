@@ -280,6 +280,24 @@ describe('Page-logger', function(){
 			  		})
 					.end(done);
 			});
+			it('the max number of views per day is shows', function (done) {
+				request
+					.get('/url/'+ TEST_URL_ENC)
+					.expect(200)
+					.expect(function (res) {
+			  			res.text.should.containEql("viewed '50' times");
+			  		})
+					.end(done);
+			});
+			it('the min number of views per day is shown', function (done) {
+				request
+					.get('/url/'+ TEST_URL_ENC)
+					.expect(200)
+					.expect(function (res) {
+			  			res.text.should.containEql("viewed '10' times");
+			  		})
+					.end(done);
+			});
 		});
 	});
 });
