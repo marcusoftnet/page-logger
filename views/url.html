@@ -19,13 +19,15 @@ Stats for '{{ title }}'
 </div>
 <div class="row">
     <div class="col-lg-offset-1 col-lg-2">Total hits:</div>
-    <div class="col-lg-offset-1 col-lg-8">'{{ totalHits }}'</div>
+    <div class="col-lg-offset-1 col-lg-8">'{{ totalHits }}' views</div>
 </div>
 <div class="row">
-    The best day was '{{ max.viewedAt.toISOString().split('T')[0] }}' when this page was viewed '{{ max.hits }}' times
+    <div class="col-lg-offset-1 col-lg-2">Best day:</div>
+    <div class="col-lg-offset-1 col-lg-8">'{{ max.viewedAt.toISOString().split('T')[0] }}', '{{ max.hits }}' hits</div>
 </div>
 <div class="row">
-    The worst day was '{{ min.viewedAt.toISOString().split('T')[0] }}' when this page was viewed '{{ min.hits }}' times
+    <div class="col-lg-offset-1 col-lg-2">Best day:</div>
+    <div class="col-lg-offset-1 col-lg-8">'{{ min.viewedAt.toISOString().split('T')[0] }}', '{{ min.hits }}' hits</div>
 </div>
 <div class="row">
     Last 15 days:

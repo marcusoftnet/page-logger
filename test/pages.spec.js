@@ -282,7 +282,7 @@ describe('Page-logger', function(){
 					.get('/url/'+ TEST_URL_ENC)
 					.expect(200)
 					.expect(function (res) {
-			  			res.text.should.containEql("'150'");
+			  			res.text.should.containEql("'150' views");
 			  		})
 					.end(done);
 			});
@@ -291,7 +291,7 @@ describe('Page-logger', function(){
 					.get('/url/'+ TEST_URL_ENC)
 					.expect(200)
 					.expect(function (res) {
-			  			res.text.should.containEql("viewed '50' times");
+			  			res.text.should.containEql("'50' hits");
 			  		})
 					.end(done);
 			});
@@ -300,7 +300,7 @@ describe('Page-logger', function(){
 					.get('/url/'+ TEST_URL_ENC)
 					.expect(200)
 					.expect(function (res) {
-			  			res.text.should.containEql("viewed '10' times");
+			  			res.text.should.containEql("'10' hits");
 			  		})
 					.end(done);
 			});
