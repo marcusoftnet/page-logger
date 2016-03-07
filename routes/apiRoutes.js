@@ -12,7 +12,6 @@ module.exports.storePageView = function *(){
 	var applicationName = helpers.getAppName(this.get("origin"));
 
 	if(!helpers.arrayElementExists(config.clients, applicationName)){
-		console.log('Denied: ' + applicationName);
 		return setError(this, "Application not approved");
 	}
 

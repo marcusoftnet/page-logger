@@ -5,10 +5,10 @@ Stats for '{{ title }}'
 
 {% block content %}
 <div class="row">
-    <div class="col-lg-offset-1 col-lg-9">
+    <div class="col-lg-offset-1 col-lg-7">
         <p class="lead">Stats for '{{ title }}'</p>
     </div>
-    <div class="col-lg-2">
+    <div class="col-lg-4">
         <a target="_blank" href="{{ url }}" class="btn btn-default btn-sm">Go there!</a>
         <br />
         <a href="/{{appname}}/" class="btn btn-default btn-sm">Back</a>
@@ -18,7 +18,8 @@ Stats for '{{ title }}'
     <hr>
 </div>
 <div class="row">
-    Total this page has been viewed '{{ totalHits }}' times in total
+    <div class="col-lg-offset-1 col-lg-2">Total hits:</div>
+    <div class="col-lg-offset-1 col-lg-8">'{{ totalHits }}'</div>
 </div>
 <div class="row">
     The best day was '{{ max.viewedAt.toISOString().split('T')[0] }}' when this page was viewed '{{ max.hits }}' times

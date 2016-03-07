@@ -282,7 +282,7 @@ describe('Page-logger', function(){
 					.get('/url/'+ TEST_URL_ENC)
 					.expect(200)
 					.expect(function (res) {
-			  			res.text.should.containEql("viewed '150' times");
+			  			res.text.should.containEql("'150'");
 			  		})
 					.end(done);
 			});
