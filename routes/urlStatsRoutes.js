@@ -23,11 +23,11 @@ var createVmForUrlStats = function (pageViewsForUrl) {
 	var minData = _.min(pageViewsForUrl, function(v) { return v.hits; });
 
 	return {
-		hits : hits,
+		hits : _.last(hits, 15),
+		viewsAt : _.last(viewDates, 15),
 		max : maxData,
 		min : minData,
 		totalHits : totalHits,
-		viewsAt : viewDates,
 		title : firstView.title,
 		appname : firstView.appname,
 		url : firstView.url

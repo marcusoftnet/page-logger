@@ -249,25 +249,21 @@ describe('Page-logger', function(){
 			  		})
 					.end(done);
 			});
-			it('displays the 20 latest hits that url', function (done) {
+			it('displays the 15 latest hits that url', function (done) {
 				co(function *(){
 					var testData = [];
 
-					for (var i = 0; i < 16; i++) {
+					for (var i = 0; i < 100; i++) {
 						testData.push(pageViews.insert({ appname: APP_NAME, url : TEST_URL, hits: i+1, title: TEST_TITLE, viewedAt : testHelpers.daysBeforeNow(i+1)}));
 					};
 
-					yield insertDatedTestPosts();
+					yield testData;
 
 					request
 						.get('/url/'+ TEST_URL_ENC)
 						.expect(200)
 						.expect(function (res) {
-				  			res.text.should.containEql("50");
-				  			res.text.should.containEql("40");
-				  			res.text.should.containEql("30");
-				  			res.text.should.containEql("20");
-				  			res.text.should.containEql("10");
+				  			res.text.should.containEql("12,11,10,9,30,8,7,6,5,4,3,2,20,1,10");
 				  		})
 						.end(done);
 				});
