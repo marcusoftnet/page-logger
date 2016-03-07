@@ -17,28 +17,27 @@ module.exports.today = function () {
 	return new Date();
 };
 
-module.exports.yesterday = function () {
+var daysBeforeNow = function (days) {
 	var d = new Date();
-	d.setDate(d.getDate() - 1);
+	d.setDate(d.getDate() - days);
 	return d;
+};
+module.exports.daysBeforeNow = daysBeforeNow;
+
+module.exports.yesterday = function () {
+	return daysBeforeNow(1);
 };
 
 module.exports.oneWeekAgo = function () {
-	var d = new Date();
-	d.setDate(d.getDate() - 8);
-	return d;
+	return daysBeforeNow(8);
 };
 
 module.exports.oneMonthAgo = function () {
-	var d = new Date();
-	d.setDate(d.getDate() - 32);
-	return d;
+	return daysBeforeNow(32);
 };
 
 module.exports.oneYearAgo = function () {
-	var d = new Date();
-	d.setDate(d.getDate() - 366);
-	return d;
+	return daysBeforeNow(366);
 };
 
 module.exports.earlyVeryEarly = function () {
