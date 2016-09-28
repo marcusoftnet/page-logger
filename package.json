@@ -7,7 +7,7 @@
     "test": "mocha -u bdd -R spec -b",
     "test:deploy": "npm test -- -R dot",
     "start": "node app.js prod",
-    "startLocal": "nodemon -e js,html app.js",
+    "start:local": "nodemon -e js,html app.js",
     "launch": "open http://page-logger.herokuapp.com",
     "push:heroku": "git push heroku master",
     "push:github": "git push --tags origin HEAD:master",
